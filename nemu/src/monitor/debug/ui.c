@@ -40,6 +40,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -49,6 +51,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "just only", cmd_si },
+	{ "info", "information", cmd_info},
 
 	/* TODO: Add more commands */
 
@@ -89,6 +92,16 @@ static int cmd_si(char *args) {
 		int num;
 		sscanf(args,"%d",&num);
 		cpu_exec(num);
+	}
+	return -1;
+}
+
+static int cmd_info(char *args) {
+	if(strcmp(args,"r") == 0) {
+		int i;
+		for( i=0;i<8;i++) {
+			printf("%d\n",reg_l(i));	
+		}
 	}
 	return -1;
 }
