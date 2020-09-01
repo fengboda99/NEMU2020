@@ -81,7 +81,15 @@ static int cmd_help(char *args) {
 
 static int cmd_si(char *args) {
 	/**/
-	
+	if(args == NULL)
+	{
+		cpu_exec(1);
+	}
+	else{
+		int num;
+		sscanf(args,"%d",&num);
+		cpu_exec(num);
+	}
 	return -1;
 }
 
@@ -98,8 +106,6 @@ void ui_mainloop() {
 		 * which may need further parsing
 		 */
 		char *args = cmd + strlen(cmd) + 1;
-		printf("%s\n",args);
-
 		if(args >= str_end) {
 			args = NULL;
 		}
