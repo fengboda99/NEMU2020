@@ -38,6 +38,8 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -46,6 +48,7 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{ "si", "just only", cmd_si },
 
 	/* TODO: Add more commands */
 
@@ -76,6 +79,11 @@ static int cmd_help(char *args) {
 	return 0;
 }
 
+static int cmd_si(char *args) {
+	/**/
+	return -1;
+}
+
 void ui_mainloop() {
 	while(1) {
 		char *str = rl_gets();
@@ -89,6 +97,7 @@ void ui_mainloop() {
 		 * which may need further parsing
 		 */
 		char *args = cmd + strlen(cmd) + 1;
+		printf("%s\n",args);
 		if(args >= str_end) {
 			args = NULL;
 		}
