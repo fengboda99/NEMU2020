@@ -99,6 +99,7 @@ void ui_mainloop() {
 		 */
 		char *args = cmd + strlen(cmd) + 1;
 		printf("%s\n",args);
+
 		if(args >= str_end) {
 			args = NULL;
 		}
