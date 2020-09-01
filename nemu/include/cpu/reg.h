@@ -23,8 +23,9 @@ typedef struct {
 		uint8_t _8[2];
 	} gpr[8];
 	/* Do NOT change the order of the GPRs' definitions. */
-
+	struct{
 	uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	};
 	};
 	swaddr_t eip;
 
