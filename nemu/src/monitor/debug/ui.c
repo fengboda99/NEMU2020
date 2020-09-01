@@ -100,7 +100,7 @@ static int cmd_info(char *args) {
 	if(strcmp(args,"r") == 0) {
 		int i;
 		for( i=0;i<8;i++) {
-			printf("%d\n",reg_l(i));	
+			printf("the %d reg is %x\n",i,reg_l(i));	
 		}
 	}
 	return -1;
