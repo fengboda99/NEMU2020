@@ -42,6 +42,7 @@ static int cmd_si(char *args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
 static struct {
 	char *name;
 	char *description;
@@ -52,7 +53,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "just only", cmd_si },
 	{ "info", "information", cmd_info},
-
+	{ "x", "mem", cmd_x},
 	/* TODO: Add more commands */
 
 };
@@ -104,6 +105,18 @@ static int cmd_info(char *args) {
 			printf("the %s reg is 0x%08x\n",regsl[i],reg_l(i));	
 		}
 	}
+	return -1;
+}
+
+static int cmd_x(char *args) {
+	int num,addr;
+	sscanf(args,"%d %x",&num,&addr);
+	int i;
+	for(i=0;i<num;i++) {
+		printf("%d ",swaddr_read(addr,4));
+		addr+=4;
+	}
+	printf("\n");
 	return -1;
 }
 
