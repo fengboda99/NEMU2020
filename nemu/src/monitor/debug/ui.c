@@ -113,7 +113,7 @@ static int cmd_x(char *args) {
 	sscanf(args,"%d %x",&num,&addr);
 	int i;
 	for(i=0;i<num;i++) {
-		printf("%d ",swaddr_read(addr,4));
+		printf("0x%08x ",swaddr_read(addr,4));
 		addr+=4;
 	}
 	printf("\n");
