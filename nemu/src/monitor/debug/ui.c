@@ -95,12 +95,24 @@ static int cmd_si(char *args) {
 	}
 	return -1;
 }
-
+static struct name{
+	char *s;
+} name_1[]= {
+	{"eax"},
+	{"ecx"},
+	{"edx"},
+	{"ebx"},
+	{"esp"},
+	{"ebp"},
+	{"esi"},
+	{"edi"},
+};
 static int cmd_info(char *args) {
+
 	if(strcmp(args,"r") == 0) {
 		int i;
 		for( i=0;i<8;i++) {
-			printf("the %d reg is %x\n",i,reg_l(i));	
+			printf("the %s reg is %x\n",name_1[i].s,reg_l(i));	
 		}
 	}
 	return -1;
