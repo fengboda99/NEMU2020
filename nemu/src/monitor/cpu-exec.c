@@ -70,6 +70,7 @@ void cpu_exec(volatile uint32_t n) {
 		if(n_temp < MAX_INSTR_TO_PRINT) {
 			printf("%s\n", asm_buf);
 		}
+		else printf("yjjnb\n");
 #endif
 
 		/* TODO: check watchpoints here. */
