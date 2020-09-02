@@ -126,7 +126,8 @@ static int cmd_x(char *args) {
 
 static int cmd_p(char *args) {
 	bool *op=false;
-	expr(args,op);
+	int ans = expr(args,op);
+	printf("%d\n",ans);
 	int k = *op;
 	return k-1;
 }
