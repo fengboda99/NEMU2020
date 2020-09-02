@@ -182,7 +182,7 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 	int i;
 	for(i=0;i<nr_token;i++) {
-		if(tokens[i].type=='-'&&(i==0||tokens[i-1].type!=NUMBER_1&&tokens[i].type!=')'))
+		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i].type!=')')))
 			tokens[i].type = MINUS;
 	}
 	*success = true;
