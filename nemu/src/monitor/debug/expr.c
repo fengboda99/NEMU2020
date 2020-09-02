@@ -133,6 +133,10 @@ int dominant_operator(int l,int r) {
 		else if(tokens[i].type == '(') cnt--;
 		if(cnt==0) {
 			if(position == -1) position = i;
+			else if(tokens[position].type==MINUS) {
+				if(tokens[i].type!='('&&tokens[i].type!=')') 
+					position = i;
+			}
 			else if(tokens[position].type=='*' || tokens[i].type=='/') {
 				if(tokens[i].type == '+' || tokens[i].type == '-')
 					position = i;
@@ -183,10 +187,7 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for(i=0;i<nr_token;i++) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i].type!=')')))
-		{
-			printf("1\n");
 			tokens[i].type = MINUS;
-		}
 	}
 	*success = true;
 	return eval(0,nr_token-1);
