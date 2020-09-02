@@ -183,7 +183,10 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for(i=0;i<nr_token;i++) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i].type!=')')))
+		{
+			printf("1\n");
 			tokens[i].type = MINUS;
+		}
 	}
 	*success = true;
 	return eval(0,nr_token-1);
