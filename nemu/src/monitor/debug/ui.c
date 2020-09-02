@@ -94,7 +94,7 @@ static int cmd_si(char *args) {
 		sscanf(args,"%d",&num);
 		cpu_exec(num);
 	}
-	return -1;
+	return 0;
 }
 
 static int cmd_info(char *args) {
@@ -105,7 +105,7 @@ static int cmd_info(char *args) {
 			printf("the %s reg is 0x%08x\n",regsl[i],reg_l(i));	
 		}
 	}
-	return -1;
+	return 0;
 }
 
 static int cmd_x(char *args) {
@@ -117,7 +117,7 @@ static int cmd_x(char *args) {
 		addr+=4;
 	}
 	printf("\n");
-	return -1;
+	return 0;
 }
 
 void ui_mainloop() {
