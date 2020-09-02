@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, NUMBER_1
 
 	/* TODO: Add more token types */
 
@@ -107,6 +107,48 @@ static bool make_token(char *e) {
 	}
 
 	return true; 
+}
+
+bool check_parentheses(int l,int r) {
+	if(tokens[l].type == '(' && tokens[r].type == ')') {
+		int sum=0;
+		int i;
+		for(i=l+1;i<r;i++) {
+			if(tokens[i].type=='(') sum++;
+			else if(tokens[i].type == ')') sum--;
+			if(sum<0) return false;
+		}
+		if(sum == 0 ) return true;
+	}
+	return false;
+}
+
+int dominant_operator(int l,int r) {
+	int position = -1;
+	int i;
+	int cnt = 0; // count the parentheses
+	for(i=r;i>=l;i--) {
+		if(tokens[i].type == NUMBER_1 ) continue;
+		if(tokens[i].type == ')') cnt++;
+		else if(tokens[i].type == '(') cnt--;
+		if(cnt==0) {
+			if(position == -1) position = i;
+			else if(tokens[position].type=='*' || tokens[i].type=='/') {
+				if(tokens[i].type == '+' || tokens[i].type == '-')
+					position = i;
+			}
+		}
+	}
+	return position;
+}
+
+int eval(int l,int r) {
+	if(l>r) {
+		Assert(l>r,"something wrong\n");
+
+		return 0;
+	}
+	return 1;
 }
 
 uint32_t expr(char *e, bool *success) {
