@@ -189,10 +189,8 @@ uint32_t eval(int l,int r) {
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
 	else {
 		int position = dominant_operator(l,r);
-		printf("position %d\n",position);
 		if(tokens[position].type==MINUS||tokens[position].type==POINTER||tokens[position].type=='!') {
 			int val = eval(position+1,r);
-			printf("0x%x\n",val);
 			switch(tokens[position].type) {
 				case MINUS: return -val;
 				case POINTER: return swaddr_read(val,4);
