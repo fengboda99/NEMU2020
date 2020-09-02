@@ -32,6 +32,10 @@ static int cmd_c(char *args) {
 	return 0;
 }
 
+static int cmd_q(char *args) {
+	return -1;
+}
+
 static int cmd_help(char *args);
 
 static int cmd_si(char *args);
@@ -40,7 +44,7 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
-static int cmd_q(char *args);
+static int cmd_p(char *args);
 
 static struct {
 	char *name;
@@ -53,7 +57,7 @@ static struct {
 	{ "si", "just only", cmd_si },
 	{ "info", "information", cmd_info},
 	{ "x", "mem", cmd_x},
-	{ "q", "expression", cmd_q},
+	{ "p", "expression", cmd_p},
 	/* TODO: Add more commands */
 
 };
@@ -120,7 +124,7 @@ static int cmd_x(char *args) {
 	return 0;
 }
 
-static int cmd_q(char *args) {
+static int cmd_p(char *args) {
 	bool *op=false;
 	expr(args,op);
 	int k = *op;
