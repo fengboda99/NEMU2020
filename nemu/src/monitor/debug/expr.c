@@ -139,7 +139,7 @@ int dominant_operator(int l,int r) {
 		if(tokens[i].type == ')') cnt++;
 		else if(tokens[i].type == '(') cnt--;
 		if(cnt==0) {
-			if(position==l&&i!=l) position = i;
+			if(position==l&&i!=l&&tokens[i].prior!=6) position = i;
 			else if(tokens[i].prior>tokens[position].prior) {
 				position = i;
 			}
