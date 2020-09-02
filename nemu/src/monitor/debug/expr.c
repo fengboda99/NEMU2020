@@ -155,7 +155,7 @@ uint32_t eval(int l,int r) {
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
 	else {
 		int position = dominant_operator(l,r);
-		if(tokens[i].type == MINUS) {
+		if(tokens[position].type == MINUS) {
 			int val = eval(position+1,r);
 			return -val;
 		}
