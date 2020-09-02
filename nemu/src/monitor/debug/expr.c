@@ -174,9 +174,10 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
+	printf("1\n");
 	/* TODO: Insert codes to evaluate the expression. */
 	*success = true;
+	printf("2\n");
 	return eval(0,nr_token-1);
 }
 
