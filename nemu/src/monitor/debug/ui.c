@@ -125,11 +125,12 @@ static int cmd_x(char *args) {
 }
 
 static int cmd_p(char *args) {
-	bool *op=false;
-	int ans = expr(args,op);
-	printf("%d\n",ans);
-	int k = *op;
-	return k-1;
+	bool op;
+	int ans = expr(args,&op);
+	if(op)
+		printf("0x%08x is %d\n",ans,ans);
+	else assert (0);
+	return 0;
 }
 
 void ui_mainloop() {
