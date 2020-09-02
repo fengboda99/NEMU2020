@@ -145,10 +145,28 @@ int dominant_operator(int l,int r) {
 int eval(int l,int r) {
 	if(l>r) {
 		Assert(l>r,"something wrong\n");
-
 		return 0;
 	}
-	return 1;
+	else if(l==r) {
+		int value;
+		sscanf(tokens[l].str,"%d",&value);
+		return value;
+	}
+	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
+	else {
+		int position = dominant_operator(l,r);
+		int val1 = eval(l,position-1);
+		int val2 = eval(position+1,r);
+		switch(tokens[position].type) {
+			case '+': return val1+val2; 
+			case '-': return val1-val2;
+			case '*': return val1*val2;
+			case '/': return val1/val2;
+			default: break;
+		}
+	} 
+	assert(1);
+	return -1;
 }
 
 uint32_t expr(char *e, bool *success) {
@@ -158,7 +176,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
-	return 0;
+	*success = true;
+	return eval(0,nr_token-1);
 }
 
