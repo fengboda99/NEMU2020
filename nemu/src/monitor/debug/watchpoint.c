@@ -76,3 +76,21 @@ void delete_wp(int num) {
 	}
 	if(!f) assert(0);
 }
+
+bool check_wp() {
+	WP* tmp = head;
+	bool f = false;
+	while(tmp!=NULL) {
+		bool suc;
+		int val = expr(tmp->str,&suc);
+		if(val!=tmp->val) {
+			f = true;
+			printf("OLD value is %d\n",tmp->val);
+			printf("NEW value is %d\n",val);
+			printf("watchpoint %d has changed\n",tmp->NO);
+		}
+		tmp = tmp->next;	
+	}
+	return f;
+}
+
