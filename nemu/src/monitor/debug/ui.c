@@ -112,6 +112,9 @@ static int cmd_info(char *args) {
 			printf("the %s reg is 0x%08x\n",regsl[i],reg_l(i));	
 		}
 	}
+	else if(strcmp(args,"w")==0) {
+		info_wp();
+	}
 	return 0;
 }
 
@@ -142,6 +145,7 @@ static int cmd_w(char *args) {
 	printf("watchpoint %d: %s\n",wp->NO,args);
 	wp->val = expr(args,&suc);
 	if(!suc) assert(0);
+	strcpy(wp->str,args);
 	printf("the val is %d\n",wp->val);		
 	return 0;	
 }

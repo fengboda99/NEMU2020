@@ -53,3 +53,11 @@ void free_wp(WP* wp) {
 	wp->next = free_;
 	free_ = wp;
 }
+
+void info_wp() {
+	WP* tmp = head;
+	while(tmp!=NULL) {
+		printf("watchpoint %d: %s, the value is %d\n",tmp->NO,tmp->str,tmp->val);
+		tmp = tmp->next;
+	}
+}
