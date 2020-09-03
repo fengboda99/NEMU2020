@@ -68,8 +68,9 @@ void delete_wp(int num) {
 	if(tmp==NULL) assert(0);
 	while(tmp!=NULL) {
 		if(tmp->NO==num) {
-			free_wp(tmp);
+			free_wp(tmp);	
 			f=true;
+			break;
 		}
 		else tmp = tmp->next;
 	}
