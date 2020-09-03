@@ -48,6 +48,8 @@ static int cmd_p(char *args);
 
 static int cmd_w(char *args);
 
+static int cmd_d(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -61,6 +63,7 @@ static struct {
 	{ "x", "memory", cmd_x},
 	{ "p", "expression", cmd_p},
 	{ "w", "watchpoint", cmd_w},
+	{ "d", "delete watchpoint", cmd_d},
 	 /* TODO: Add more commands */
 
 };
@@ -148,6 +151,13 @@ static int cmd_w(char *args) {
 	strcpy(wp->str,args);
 	printf("the val is %d\n",wp->val);		
 	return 0;	
+}
+
+static int cmd_d(char *args) {
+	int num;
+	sscanf(args,"%d",&num);
+	delete_wp(num);	
+	return 0;
 }
 
 void ui_mainloop() {

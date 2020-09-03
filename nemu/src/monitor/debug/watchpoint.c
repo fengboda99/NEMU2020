@@ -61,3 +61,17 @@ void info_wp() {
 		tmp = tmp->next;
 	}
 }
+
+void delete_wp(int num) {
+	WP* tmp = head;
+	bool f = false;
+	if(tmp==NULL) assert(0);
+	while(tmp!=NULL) {
+		if(tmp->NO==num) {
+			free_wp(tmp);
+			f=true;
+		}
+		else tmp = tmp->next;
+	}
+	if(!f) assert(0);
+}
