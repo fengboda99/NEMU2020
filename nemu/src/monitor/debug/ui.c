@@ -61,7 +61,7 @@ static struct {
 	{ "x", "memory", cmd_x},
 	{ "p", "expression", cmd_p},
 	{ "w", "watchpoint", cmd_w},
-	/* TODO: Add more commands */
+	 /* TODO: Add more commands */
 
 };
 
@@ -137,6 +137,12 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_w(char *args) {
+	WP *wp = new_wp();
+	bool suc;
+	printf("watchpoint %d: %s\n",wp->NO,args);
+	wp->val = expr(args,&suc);
+	if(!suc) assert(0);
+	printf("the val is %d\n",wp->val);		
 	return 0;	
 }
 
