@@ -46,6 +46,8 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -56,8 +58,9 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "just only", cmd_si },
 	{ "info", "information", cmd_info},
-	{ "x", "mem", cmd_x},
+	{ "x", "memory", cmd_x},
 	{ "p", "expression", cmd_p},
+	{ "w", "watchpoint", cmd_w},
 	/* TODO: Add more commands */
 
 };
@@ -131,6 +134,10 @@ static int cmd_p(char *args) {
 		printf("0x%08x is %d\n",ans,ans);
 	else assert (0);
 	return 0;
+}
+
+static int cmd_w(char *args) {
+	return 0;	
 }
 
 void ui_mainloop() {
