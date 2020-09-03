@@ -37,8 +37,7 @@ void free_wp(WP* wp) {
 	bool f= false;
 	if(tmp==NULL) assert(0);
 	while(tmp!=NULL) {
-		if(tmp==wp) {
-			printf("1\n");
+		if(tmp==wp) {	
 			head = head->next;
 			f= true;
 			break;
