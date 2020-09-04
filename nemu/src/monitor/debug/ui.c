@@ -123,6 +123,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args) {
 	int num,addr;
+	if(args==NULL) assert(0);
 	sscanf(args,"%d %x",&num,&addr);
 	int i;
 	for(i=0;i<num;i++) {
