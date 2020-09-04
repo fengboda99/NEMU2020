@@ -32,7 +32,7 @@ static struct rule {
 	{"\\)",')', 6},						//right
 	{"\\b[0-9]+\\b", NUMBER_1, 0},				//number
 	{"\\b0[xX][0-9a-zA-Z]+\\b", NUMBER_2, 0},		//16number
-	{"\\$[a-zA-Z]", REGISTER, 0},                      	//register
+	{"\\$[a-zA-Z]+", REGISTER, 0},                      	//register
 	{"!=", NEQ, 2},  					//not equal
 	{"!", '!', 5},						//not
 	{"&&", AND, 1},						//AND
