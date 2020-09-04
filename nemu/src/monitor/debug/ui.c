@@ -123,9 +123,13 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args) {
 	int num,addr;
+	bool ok;
 	if(args==NULL) assert(0);
-	sscanf(args,"%d %x",&num,&addr);
+	char str[32];
+	sscanf(args,"%d %s",&num,str);
 	int i;
+	addr = expr(str,&ok);
+	if(!ok) assert(0);
 	for(i=0;i<num;i++) {
 		printf("0x%08x ",swaddr_read(addr,4));
 		addr+=4;
