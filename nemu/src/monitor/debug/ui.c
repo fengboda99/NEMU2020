@@ -132,7 +132,7 @@ static int cmd_x(char *args) {
 	addr = expr(str,&ok);
 	if(!ok) assert(0);
 	for(i=0;i<num;i++) {
-		printf("0x%08x ",swaddr_read(addr,4));
+		printf("0x%08x\n",swaddr_read(addr,4));
 		addr+=4;
 	}
 	printf("\n");
