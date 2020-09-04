@@ -126,7 +126,7 @@ static int cmd_x(char *args) {
 	uint32_t addr;
 	bool ok;
 	if(args==NULL) assert(0);
-	char str[32];
+	char str[64];
 	sscanf(args,"%d %s",&num,str);
 	int i;
 	addr = expr(str,&ok);
