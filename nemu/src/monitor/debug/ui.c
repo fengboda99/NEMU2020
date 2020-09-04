@@ -122,7 +122,8 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
-	int num,addr;
+	int num;
+	uint32_t addr;
 	bool ok;
 	if(args==NULL) assert(0);
 	char str[32];
