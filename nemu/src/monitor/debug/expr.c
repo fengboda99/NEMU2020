@@ -135,7 +135,7 @@ int dominant_operator(int l,int r) {
 	int i;
 	int cnt = 0; // count the parentheses
 	for(i=r;i>=l;i--) {
-		if(tokens[i].type == NUMBER_1 ) continue;
+		if(tokens[i].type == NUMBER_1||tokens[i].type == NUMBER_2 || tokens[i].type==REGISTER) continue;
 		if(tokens[i].type == ')') cnt++;
 		else if(tokens[i].type == '(') cnt--;
 		if(cnt==0) {
@@ -200,6 +200,7 @@ uint32_t eval(int l,int r) {
 		}
 		uint32_t val1 = eval(l,position-1);
 		uint32_t val2 = eval(position+1,r);
+		printf("%d %d\n",val1,val2);
 		switch(tokens[position].type) {
 			case '+': return (int)val1+val2; 
 			case '-': return (int)val1-val2;
