@@ -149,7 +149,7 @@ int dominant_operator(int l,int r) {
 }
 
 uint32_t eval(int l,int r) {
-	printf("nice %d %d\n",l,r);
+	//printf("nice %d %d\n",l,r);
 	if(l>r) {
 		Assert(l>r,"something wrong\n");
 		return 0;
@@ -190,7 +190,7 @@ uint32_t eval(int l,int r) {
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
 	else {
 		int position = dominant_operator(l,r);
-		printf("%d\n",position);
+		printf("%d %d %d\n",l,position,r);
 		if(tokens[position].type==MINUS) printf("yes\n");
 		if(tokens[position].type==MINUS||tokens[position].type==POINTER||tokens[position].type=='!') {
 			int val = eval(position+1,r);
@@ -231,7 +231,7 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for(i=0;i<nr_token;i++) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
-			printf("123\n");
+			//printf("123\n");
 			tokens[i].type = MINUS;
 			tokens[i].type = 5;
 		}
