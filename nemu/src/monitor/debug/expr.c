@@ -192,7 +192,6 @@ uint32_t eval(int l,int r) {
 	else {
 		int position = dominant_operator(l,r);
 		//printf("%d %d %d\n",l,position,r);
-		if(tokens[position].type==MINUS) printf("yes\n");
 		if(tokens[position].type==MINUS||tokens[position].type==POINTER||tokens[position].type=='!') {
 			int val = eval(position+1,r);
 			//printf("%d\n",val);
@@ -209,8 +208,8 @@ uint32_t eval(int l,int r) {
 		switch(tokens[position].type) {
 			case '+': return val1+val2; 
 			case '-': return val1-val2;
-			case '*': return (int)val1*val2;
-			case '/': return (int)val1/val2;
+			case '*': return val1*val2;
+			case '/': {int v1 = val1;int v2 = val2; int ans = v1/v2;return ans;}
 			case AND: return val1&&val2;
 			case OR: return val1||val2;
 			case EQ: return val1==val2;
