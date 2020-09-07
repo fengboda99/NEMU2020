@@ -141,7 +141,7 @@ int dominant_operator(int l,int r) {
 		if(cnt==0) {
 			if(position==l&&i!=l&&tokens[i].prior!=6) position = i;
 			else if(tokens[i].prior<tokens[position].prior) {
-				printf("%d %d\n",tokens[i].prior,tokens[position].prior);
+				//printf("%d %d\n",tokens[i].prior,tokens[position].prior);
 				position = i;
 			}
 		}
@@ -191,7 +191,7 @@ uint32_t eval(int l,int r) {
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
 	else {
 		int position = dominant_operator(l,r);
-		printf("%d %d %d\n",l,position,r);
+		//printf("%d %d %d\n",l,position,r);
 		if(tokens[position].type==MINUS) printf("yes\n");
 		if(tokens[position].type==MINUS||tokens[position].type==POINTER||tokens[position].type=='!') {
 			int val = eval(position+1,r);
@@ -207,10 +207,10 @@ uint32_t eval(int l,int r) {
 		uint32_t val2 = eval(position+1,r);
 		//printf("%d %d\n",val1,val2);
 		switch(tokens[position].type) {
-			case '+': return (int)val1+val2; 
-			case '-': return (int)val1-val2;
-			case '*': return (int)val1*val2;
-			case '/': return (int)val1/val2;
+			case '+': return val1+val2; 
+			case '-': return val1-val2;
+			case '*': return val1*val2;
+			case '/': return val1/val2;
 			case AND: return val1&&val2;
 			case OR: return val1||val2;
 			case EQ: return val1==val2;
@@ -234,7 +234,7 @@ uint32_t expr(char *e, bool *success) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
 			//printf("123\n");
 			tokens[i].type = MINUS;
-			tokens[i].type = 5;
+			tokens[i].prior = 5;
 		}
 		if(tokens[i].type=='*'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
 			tokens[i].type = POINTER;
