@@ -144,6 +144,10 @@ int dominant_operator(int l,int r) {
 				//printf("%d %d\n",tokens[i].prior,tokens[position].prior);
 				position = i;
 			}
+			else if(tokens[i].prior==5&&tokens[i].type==tokens[position].type) {
+				position = i;
+			}	
+			else assert(0);
 		}
 	}
 	return position;
