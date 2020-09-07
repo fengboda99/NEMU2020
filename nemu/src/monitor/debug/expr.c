@@ -201,10 +201,10 @@ uint32_t eval(int l,int r) {
 		uint32_t val1 = eval(l,position-1);
 		uint32_t val2 = eval(position+1,r);
 		switch(tokens[position].type) {
-			case '+': return val1+val2; 
-			case '-': return val1-val2;
-			case '*': return val1*val2;
-			case '/': return val1/val2;
+			case '+': return (int)val1+val2; 
+			case '-': return (int)val1-val2;
+			case '*': return (int)val1*val2;
+			case '/': return (int)val1/val2;
 			case AND: return val1&&val2;
 			case OR: return val1||val2;
 			case EQ: return val1==val2;
