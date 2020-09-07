@@ -229,11 +229,11 @@ uint32_t expr(char *e, bool *success) {
 	for(i=0;i<nr_token;i++) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
 			tokens[i].type = MINUS;
-			tokens[i].type = 6;
+			tokens[i].type = 5;
 		}
 		if(tokens[i].type=='*'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
 			tokens[i].type = POINTER;
-			tokens[i].prior = 6;
+			tokens[i].prior = 5;
 		}
 	}
 	*success = true;
