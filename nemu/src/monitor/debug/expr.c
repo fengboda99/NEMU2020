@@ -231,6 +231,7 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for(i=0;i<nr_token;i++) {
 		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
+			printf("123\n");
 			tokens[i].type = MINUS;
 			tokens[i].type = 5;
 		}
