@@ -185,7 +185,7 @@ uint32_t eval(int l,int r) {
 			}
 			else assert(1); 	
 		}
-		else assert(1);
+		else assert(0);
 		return value;
 	}
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
