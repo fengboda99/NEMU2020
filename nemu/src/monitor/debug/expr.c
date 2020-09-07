@@ -189,6 +189,7 @@ uint32_t eval(int l,int r) {
 	else if(check_parentheses(l,r)==true) return eval(l+1,r-1);
 	else {
 		int position = dominant_operator(l,r);
+		printf("%d\n",position);
 		if(tokens[position].type==MINUS||tokens[position].type==POINTER||tokens[position].type=='!') {
 			int val = eval(position+1,r);
 			switch(tokens[position].type) {
