@@ -149,6 +149,7 @@ int dominant_operator(int l,int r) {
 }
 
 uint32_t eval(int l,int r) {
+	printf("nice %d %d\n",l,r);
 	if(l>r) {
 		Assert(l>r,"something wrong\n");
 		return 0;
