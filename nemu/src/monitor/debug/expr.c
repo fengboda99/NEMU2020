@@ -221,7 +221,7 @@ uint32_t eval(int l,int r) {
 			default: break;
 		}
 	} 
-	assert(1);
+	assert(0);
 	return -1;
 }
 
