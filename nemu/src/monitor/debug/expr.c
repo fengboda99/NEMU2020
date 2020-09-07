@@ -154,7 +154,7 @@ uint32_t eval(int l,int r) {
 		return 0;
 	}
 	else if(l==r) {
-		int value=-1;
+		uint32_t value=-1;
 		if(tokens[l].type==NUMBER_1)
 			sscanf(tokens[l].str,"%d",&value);
 		else if(tokens[l].type==NUMBER_2)
@@ -198,8 +198,8 @@ uint32_t eval(int l,int r) {
 				default: break;
 			}
 		}
-		int val1 = eval(l,position-1);
-		int val2 = eval(position+1,r);
+		uint32_t val1 = eval(l,position-1);
+		uint32_t val2 = eval(position+1,r);
 		switch(tokens[position].type) {
 			case '+': return val1+val2; 
 			case '-': return val1-val2;
