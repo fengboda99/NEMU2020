@@ -20,6 +20,6 @@ static void do_execute() {
 	cpu.CF = d2<d1;	
 }
 
-make_instr_helper(i2rm);
+make_instr_helper(si2rm);
 
 #include "cpu/exec/template-end.h"
