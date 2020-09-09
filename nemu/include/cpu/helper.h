@@ -16,7 +16,7 @@ static inline int idex(swaddr_t eip, int (*decode)(swaddr_t), void (*execute) (v
 	/* eip is pointing to the opcode */
 	int len = decode(eip + 1);
 	execute();
-	printf("%d\n",len);
+//	printf("%d\n",len);
 	return len + 1;	// "1" for opcode
 }
 
