@@ -89,4 +89,5 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
+	cpu.eflags =2;
 }

@@ -1,0 +1,27 @@
+#include "cpu/exec/template-start.h"
+
+#define instr test
+
+static void do_execute() {
+	cpu.CF = 0;
+	cpu.OF = 0;
+	int ans = op_src->val & op_src2->val;
+	if(ans<0) cpu.SF = 1;
+	else cpu.SF = 0;
+	if(ans==0) cpu.ZF = 1;
+	else cpu.ZF = 0;
+	int cnt = 0;
+	while(ans) {
+		ans = ans&(ans-1);
+		cnt++;
+	}
+	if(cnt%2) {
+		cpu.PF = 0;
+	}
+	else cpu.PF = 1;
+	print_asm_template2();
+}
+
+make_instr_helper(rm);
+
+#include "cpu/exec/template-end.h"
