@@ -3,7 +3,7 @@
 #define instr je
 
 static void do_execute() {
-	DATA_TYPE_S d = op_src->val;
+	int d = op_src->val;
 	if(cpu.ZF==1) cpu.eip += d;
 	print_asm_template1();	
 }
