@@ -3,6 +3,7 @@
 #define instr cmp
 
 static void do_execute() {
+	printf("1\n");
 	int d1 = op_src->val;
 	int d2 = op_dest->val;
 	int ans = d2-d1;
