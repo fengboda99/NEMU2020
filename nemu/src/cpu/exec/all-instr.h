@@ -11,7 +11,9 @@
 #include "arith/mul.h"
 #include "arith/idiv.h"
 #include "arith/div.h"
+
 #include "control-trans/call.h"
+#include "control-trans/je.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
