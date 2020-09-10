@@ -14,7 +14,6 @@ static make_helper(_2byte_esc);
 	static make_helper(name) { \
 		ModR_M m; \
 		m.val = instr_fetch(eip + 1, 1); \
-		printf("%d\n",m.opcode); \
 		return concat(opcode_table_, name) [m.opcode](eip); \
 	}
 	
@@ -31,7 +30,7 @@ make_group(group1_v,
 /* 0x83 */
 make_group(group1_sx_v,
 	inv, inv, inv, inv, 
-	inv, inv, inv, cmp_si2rm_v)
+	inv, sub_si2rm_v, inv, cmp_si2rm_v)
 
 /* 0xc0 */
 make_group(group2_i_b,
