@@ -18,6 +18,7 @@
 #include "control-trans/call.h"
 #include "control-trans/je.h"
 #include "control-trans/ret.h"
+#include "control-trans/jmp.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
