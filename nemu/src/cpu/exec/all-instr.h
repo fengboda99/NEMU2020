@@ -13,6 +13,7 @@
 #include "arith/idiv.h"
 #include "arith/div.h"
 #include "arith/cmp.h"
+#include "arith/sub.h"
 
 #include "control-trans/call.h"
 #include "control-trans/je.h"

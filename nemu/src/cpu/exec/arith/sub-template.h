@@ -1,9 +1,8 @@
 #include "cpu/exec/template-start.h"
 
-#define instr cmp
+#define instr sub
 
 static void do_execute() {
-	//printf("1bsbsbasasdoasjoidjia\n");
 	int d1 = op_src->val;
 	int d2 = op_dest->val;
 	int ans = d2-d1;
@@ -19,6 +18,7 @@ static void do_execute() {
 	if((ans>0&&d1>0&&d2<=0)||(ans<0&&d1<0&&d2>=0)) cpu.OF = 1;
 	else cpu.OF = 0;
 	cpu.CF = d2<d1;	
+	OPERAND_W(op_dest,op_src->val);
 }
 
 make_instr_helper(si2rm);
