@@ -9,3 +9,4 @@
 #undef DATA_BYTE
 
 make_helper_v(add_r2rm);
+make_helper_v(add_si2rm);
