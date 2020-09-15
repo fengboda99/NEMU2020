@@ -21,6 +21,6 @@ static void do_execute() {
 	OPERAND_W(op_dest,ans);
 }
 
-make_instr_helper(si2rm);
+make_instr_helper(r2rm);
 
 #include "cpu/exec/template-end.h"
