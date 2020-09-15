@@ -1,11 +1,11 @@
 #include "cpu/exec/template-start.h"
 
-#define instr sub
+#define instr add
 
 static void do_execute() {
 	int d1 = op_src->val;
 	int d2 = op_dest->val;
-	int ans = d2-d1;
+	int ans = d2+d1;
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
  	int n =ans;
@@ -15,9 +15,9 @@ static void do_execute() {
 		cnt++;
 	}	
 	cpu.PF = cnt%2==0? 1:0;
-	if((ans>0&&d1>0&&d2<=0)||(ans<0&&d1<0&&d2>=0)) cpu.OF = 1;
+	if((d1>0&&d2>0&&ans<=0)||(d2<0&&d1<0&&ans>=0)) cpu.OF = 1;
 	else cpu.OF = 0;
-	cpu.CF = d2<d1;	
+	cpu.CF= (unsigned int) ans < (unsigned int)d2;	
 	OPERAND_W(op_dest,ans);
 }
 

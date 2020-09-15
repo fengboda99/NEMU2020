@@ -17,7 +17,7 @@ static void do_execute() {
 	cpu.PF = cnt%2==0? 1:0;
 	if((ans>0&&d1>0&&d2<=0)||(ans<0&&d1<0&&d2>=0)) cpu.OF = 1;
 	else cpu.OF = 0;
-	cpu.CF = d2<d1;	
+	cpu.CF = (unsigned int)d2< (unsigned int)d1;	
 	OPERAND_W(op_dest,ans);
 }
 
