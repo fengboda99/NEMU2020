@@ -2,6 +2,6 @@
 #define __TEST_H__
 
 
-make_helper(test_rm_v);
-
+make_helper(test_r2rm_v);
+make_helper(test_r2rm_b);
 #endif
