@@ -29,6 +29,7 @@
 #include "control-trans/jge.h"
 #include "control-trans/jne.h"
 #include "control-trans/jg.h"
+#include "control-trans/jl.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
