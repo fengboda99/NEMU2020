@@ -10,6 +10,7 @@ static void do_execute() {
 	else cpu.SF = 0;
 	if(ans==0) cpu.ZF = 1;
 	else cpu.ZF = 0;
+	printf("%d\n",cpu.ZF);
 	int cnt = 0;
 	while(ans) {
 		ans = ans&(ans-1);
