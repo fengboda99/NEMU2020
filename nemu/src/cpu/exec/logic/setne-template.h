@@ -3,10 +3,9 @@
 #define instr setne
 
 static void do_execute() {
-	int f;
-	if(cpu.ZF==0) f=1;
-	else f=0;
-	OPERAND_W(op_src,f); 
+	if(cpu.ZF==0) OPERAND_W(op_src,1);
+	else
+	OPERAND_W(op_src,0); 
 	print_asm_template1();
 }
 
