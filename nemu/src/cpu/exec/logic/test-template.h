@@ -5,7 +5,7 @@
 static void do_execute() {
 	cpu.CF = 0;
 	cpu.OF = 0;
-	DATA_TYPE ans = op_dest->val & op_src2->val;
+	int ans = op_dest->val & op_src->val;
 	if(ans<0) cpu.SF = 1;
 	else cpu.SF = 0;
 	if(ans==0) cpu.ZF = 1;
