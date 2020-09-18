@@ -23,6 +23,7 @@
 #include "control-trans/jmp.h"
 #include "control-trans/jle.h"
 #include "control-trans/jbe.h"
+#include "control-trans/jge.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
