@@ -5,12 +5,12 @@
 static void do_execute() {
 	cpu.CF = 0;
 	cpu.OF = 0;
-	int ans = op_src->val & op_src2->val;
+	int ans = op_dest->val & op_src2->val;
 	if(ans<0) cpu.SF = 1;
 	else cpu.SF = 0;
 	if(ans==0) cpu.ZF = 1;
 	else cpu.ZF = 0;
-	printf("%d\n",cpu.ZF);
+	//printf("%d\n",cpu.ZF);
 	int cnt = 0;
 	while(ans) {
 		ans = ans&(ans-1);
