@@ -1,6 +1,6 @@
 #ifndef __LEAVE_H__
 #define __LEAVE_H__
 
-make_helper(leave_1_v);
+make_helper(leave);
 
-#endif 
+#endif
