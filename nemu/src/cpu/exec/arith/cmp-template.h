@@ -18,7 +18,7 @@ static void do_execute() {
 	cpu.PF = cnt%2==0? 1:0;
 	if((ans>0&&d1>0&&d2<=0)||(ans<0&&d1<0&&d2>=0)) cpu.OF = 1;
 	else cpu.OF = 0;
-	cpu.CF = d2<d1;	
+	cpu.CF = op_dest->val<op_src->val;	
 }
 #if DATA_BYTE ==2 || DATA_BYTE == 4
 make_instr_helper(si2rm);

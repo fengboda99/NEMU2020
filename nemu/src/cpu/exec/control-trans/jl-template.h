@@ -5,7 +5,7 @@
 static void do_execute() {
 	DATA_TYPE_S d = op_src->val;
 	//printf("%x\n",cpu.eip);
-	if(cpu.OF!=cpu.SF&&cpu.ZF==0) cpu.eip += d;
+	if(cpu.OF!=cpu.SF) cpu.eip += d;
 	//printf("%x\n %x\n",d,cpu.eip);
 	print_asm_template1();	
 }
