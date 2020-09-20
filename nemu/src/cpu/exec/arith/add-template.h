@@ -20,8 +20,10 @@ static void do_execute() {
 	cpu.CF= (unsigned int) ans < (unsigned int)d2;	
 	OPERAND_W(op_dest,ans);
 }
-
+make_instr_helper(i2a);
 make_instr_helper(r2rm);
+#if DATA_BYTE == 2 || DATA_BYTE==4
 make_instr_helper(si2rm);
-
+#endif
+make_instr_helper(i2rm);
 #include "cpu/exec/template-end.h"
