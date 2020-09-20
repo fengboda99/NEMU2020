@@ -19,6 +19,7 @@
 #include "arith/sub.h"
 #include "arith/add.h"
 #include "arith/adc.h"
+#include "arith/sbb.h"
 
 #include "control-trans/call.h"
 #include "control-trans/je.h"
