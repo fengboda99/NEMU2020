@@ -7,7 +7,7 @@ make_helper(concat(scas_1_,SUFFIX)) {
 	if(DATA_BYTE==2)
 	{
 		d1 = swaddr_read(reg_w(R_DI),2);
-		d2 = reg_w(R_EAX);
+		d2 = reg_w(R_AX);
 		if(cpu.DF==0)
 		{
 			reg_w(R_DI)+=DATA_BYTE;
