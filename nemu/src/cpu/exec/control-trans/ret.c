@@ -9,3 +9,4 @@
 #undef DATA_BYTE
 
 make_helper_v(ret_1);
+make_helper_v(ret_i);
