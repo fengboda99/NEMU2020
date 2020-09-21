@@ -26,14 +26,28 @@ make_helper(concat(scas_1_,SUFFIX)) {
 			d1 &= 0xff;
 			d2 &= 0xff;		
 		}
-		if(cpu.DF==0)
+		if(DATA_BYTE==4)
 		{
-			reg_l(R_EDI)+=DATA_BYTE;
+			if(cpu.DF==0)
+			{
+				reg_l(R_EDI)+=DATA_BYTE;
+			}	
+			else 
+			{
+				reg_l(R_EDI)-=DATA_BYTE;	
+			}
 		}	
-		else 
+		else
 		{
-			reg_l(R_EDI)-=DATA_BYTE;	
-		}	
+			if(cpu.DF==0)
+			{
+				reg_l(R_BH)+=DATA_BYTE;
+			}	
+			else 
+			{
+				reg_l(R_BH)-=DATA_BYTE;	
+			}
+		}
 	}
 	print_asm_template2();	
 	int ans = d2-d1;
