@@ -5,7 +5,7 @@
 make_helper(concat(movs_1_,SUFFIX)) {
 	if(DATA_BYTE==2)
 	{
-		swaddr_write(reg_w(R_DI),2,swaddr_read(reg_l(R_SI),4));
+		swaddr_write(reg_w(R_DI),2,swaddr_read(reg_l(R_SI),2));
 		if(cpu.DF==0)
 		{
 			reg_w(R_DI)+=DATA_BYTE;
