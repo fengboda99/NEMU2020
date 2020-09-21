@@ -6,7 +6,7 @@ make_helper(concat(scas_1_,SUFFIX)) {
 	int d1,d2;
 	if(DATA_BYTE==2)
 	{
-		d1 = swaddr_read(reg_w(R_DI),2);
+		d1 = swaddr_read(reg_w(R_DI),4);
 		d2 = reg_w(R_EAX);
 		if(cpu.DF==0)
 		{
