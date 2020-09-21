@@ -17,33 +17,16 @@ make_helper(concat(lods_1_,SUFFIX)) {
 	}
 	else 
 	{
-		if(DATA_BYTE==4)
+		swaddr_write(reg_l(R_EAX),4,swaddr_read(reg_l(R_ESI),4));
+		if(cpu.DF==0)
 		{
-			swaddr_write(reg_l(R_EAX),4,swaddr_read(reg_l(R_ESI),4));
-			if(cpu.DF==0)
-			{
-				reg_l(R_ESI)+=DATA_BYTE;
-			}	
-			else 
-			{
-				reg_l(R_ESI)-=DATA_BYTE;	
-			}
+			reg_l(R_ESI)+=DATA_BYTE;
 		}	
-		else
+		else 
 		{
-			printf("%x %x",swaddr_read(reg_b(R_AL),1),swaddr_read(reg_b(R_DH),1));
-			swaddr_write(reg_b(R_AL),1,swaddr_read(reg_b(R_DH),1));
-			printf("%x %x",swaddr_read(reg_b(R_AL),1),swaddr_read(reg_b(R_DH),1));
-			if(cpu.DF==0)
-			{
-				reg_l(R_DH)+=DATA_BYTE;
-			}	
-			else 
-			{
-				reg_l(R_DH)-=DATA_BYTE;	
-			}
+			reg_l(R_ESI)-=DATA_BYTE;	
 		}
-	}
+	}	
 	print_asm_template2();	
 	return 1;
 }
