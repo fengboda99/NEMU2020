@@ -3,7 +3,7 @@
 #define instr stos
 
 make_helper(concat(stos_1_,SUFFIX)) {
-	if(DATA_BYTE==2)
+	if(ops_decoded.is_operand_size_16)
 	{
 		swaddr_write(reg_w(R_DI),2,reg_w(R_AX));
 		if(cpu.DF==0)
