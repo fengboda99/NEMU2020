@@ -9,7 +9,7 @@ static void do_execute () {
 	/* TODO: Update EFLAGS. */
 	int d1 = 1;
 	int d2 = op_src->val;
-	int ans = result;
+	int ans = (int)result;
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
  	int n =ans;
