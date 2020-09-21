@@ -31,6 +31,7 @@ make_helper(concat(lods_1_,SUFFIX)) {
 		}	
 		else
 		{
+			printf("123\n");
 			swaddr_write(reg_b(R_AL),1,swaddr_read(reg_b(R_DH),1));
 			if(cpu.DF==0)
 			{
