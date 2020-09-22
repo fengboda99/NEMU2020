@@ -12,10 +12,9 @@ static void do_execute () {
 	int ans = (int)result;
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
- 	int n =ans;
 	int cnt =0;
-	while(n) {
-		n = n&(n-1);
+	while(result) {
+		result = result&(result-1);
 		cnt++;
 	}	
 	cpu.PF = cnt%2==0? 1:0;
