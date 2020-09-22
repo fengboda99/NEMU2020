@@ -17,7 +17,7 @@ make_helper(concat(lods_1_,SUFFIX)) {
 	}
 	else 
 	{
-		reg_l(R_EAX) = swaddr_read(reg_l(R_ESI),4);
+		reg_l(R_EAX) = swaddr_read(reg_l(R_ESI),DATA_BYTE);
 		if(cpu.DF==0)
 		{
 			reg_l(R_ESI)+=DATA_BYTE;
