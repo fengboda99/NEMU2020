@@ -8,7 +8,7 @@ static void do_execute() {
 	int ans = d2+d1+cpu.CF;
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
- 	int n =ans;
+ 	DATA_TYPE n =op_src->val+op_dest->val+cpu.CF;
 	int cnt =0;
 	while(n) {
 		n = n&(n-1);
