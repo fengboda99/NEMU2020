@@ -21,11 +21,11 @@ make_helper(concat(scas_1_,SUFFIX)) {
 	{
 		d1 = swaddr_read(reg_l(R_EDI),4);
 		d2 = reg_l(R_EAX);
-		if(DATA_BYTE==1)
+		/*if(DATA_BYTE==1)
 		{
 			d1 &= 0xff;
 			d2 &= 0xff;		
-		}
+		}*/
 		if(cpu.DF==0)
 		{
 			reg_l(R_EDI)+=DATA_BYTE;
