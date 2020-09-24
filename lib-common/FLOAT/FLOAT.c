@@ -3,7 +3,7 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	//nemu_assert(0);
 	long long ans = (long long)a*(long long)b;
-	printf("%d\n",ans>>32);	
+	printf("123\n");
 	return ans>>16;
 }
 
