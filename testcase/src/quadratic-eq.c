@@ -4,12 +4,13 @@
 /* solve 0.5x^2 + 0.5x - 0.5 = 0 */
 
 int main() {
-	FLOAT a = f2F(0.5);
+	//FLOAT a = f2F(0.5);
 	FLOAT b = f2F(0.5);
-	FLOAT c = f2F(-0.5);
-	FLOAT d = f2F(1.25);
-	FLOAT dt = F_mul_F(b, b) - F_mul_F(F_mul_int(a, 4), c);
-	nemu_assert(dt==d);	
+	//FLOAT c = f2F(-0.5);
+	FLOAT d = F_mul_F(b, b);
+	FLOAT e = f2F(0.25);
+	//FLOAT dt = F_mul_F(b, b) - F_mul_F(F_mul_int(a, 4), c);
+	nemu_assert(e==d);	
 	//FLOAT sqrt_dt = sqrt(dt);
 	//nemu_assert(a==b);
 	//FLOAT x1 = F_div_F(-b + sqrt_dt, F_mul_int(a, 2));
