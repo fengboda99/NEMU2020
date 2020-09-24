@@ -67,8 +67,7 @@ FLOAT f2F(float a) {
 	FLOAT f = b&0x7fffff;
 	if(!exp) return 0;
 	f+=1<<23;
-	exp-=127;
-	exp-=16;
+	exp-=134;
 	if(exp>0) f<<= exp;
 	if(exp<0) f>>= (-exp);
    	return sign==0?f:-f;
