@@ -8,6 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+void display_reg();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -27,6 +28,98 @@ char* rl_gets() {
 	return line_read;
 }
 
+/* TODO: Add single step */
+static int cmd_si(char *args) {
+	char *arg = strtok(NULL, " ");
+	int i = 1;
+
+	if(arg != NULL) {
+		sscanf(arg, "%d", &i);
+	}
+	cpu_exec(i);
+	return 0;
+}
+
+/* TODO: Add info command */
+static int cmd_info(char *args) {
+	char *arg = strtok(NULL, " ");
+
+	if(arg != NULL) {
+		if(strcmp(arg, "r") == 0) {
+			display_reg();
+		}
+		else if(strcmp(arg, "w") == 0) {
+			list_watchpoint();
+		}
+	}
+	return 0;
+}
+
+/* Add examine memory */
+static int cmd_x(char *args) {
+	char *arg = strtok(NULL, " ");
+	int n;
+	swaddr_t addr;
+	int i;
+
+	if(arg != NULL) {
+		sscanf(arg, "%d", &n);
+
+		bool success;
+		addr = expr(arg + strlen(arg) + 1, &success);
+		if(success) { 
+			for(i = 0; i < n; i ++) {
+				if(i % 4 == 0) {
+					printf("0x%08x: ", addr);
+				}
+
+				printf("0x%08x ", swaddr_read(addr, 4));
+				addr += 4;
+				if(i % 4 == 3) {
+					printf("\n");
+				}
+			}
+			printf("\n");
+		}
+		else { printf("Bad expression\n"); }
+
+	}
+	return 0;
+}
+
+/* Add expression evaluation  */
+static int cmd_p(char *args) {
+	bool success;
+
+	if(args) {
+		uint32_t r = expr(args, &success);
+		if(success) { printf("0x%08x(%d)\n", r, r); }
+		else { printf("Bad expression\n"); }
+	}
+	return 0;
+}
+
+/* Add set watchpoint  */
+static int cmd_w(char *args) {
+	if(args) {
+		int NO = set_watchpoint(args);
+		if(NO != -1) { printf("Set watchpoint #%d\n", NO); }
+		else { printf("Bad expression\n"); }
+	}
+	return 0;
+}
+
+/* Add delete watchpoint */
+static int cmd_d(char *args) {
+	int NO;
+	sscanf(args, "%d", &NO);
+	if(!delete_watchpoint(NO)) {
+		printf("Watchpoint #%d does not exist\n", NO);
+	}
+
+	return 0;
+}
+
 static int cmd_c(char *args) {
 	cpu_exec(-1);
 	return 0;
@@ -38,18 +131,6 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-static int cmd_si(char *args);
-
-static int cmd_info(char *args);
-
-static int cmd_x(char *args);
-
-static int cmd_p(char *args);
-
-static int cmd_w(char *args);
-
-static int cmd_d(char *args);
-
 static struct {
 	char *name;
 	char *description;
@@ -57,14 +138,15 @@ static struct {
 } cmd_table [] = {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
-	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "just only", cmd_si },
-	{ "info", "information", cmd_info},
-	{ "x", "memory", cmd_x},
-	{ "p", "expression", cmd_p},
-	{ "w", "watchpoint", cmd_w},
-	{ "d", "delete watchpoint", cmd_d},
-	 /* TODO: Add more commands */
+	{ "q", "Exit NEMU", cmd_q }, 
+
+	/* TODO: Add more commands */
+        { "si", "Single step", cmd_si },
+        { "info", "info r - print register values; info w - show watch point state", cmd_info },
+	{ "x", "Examine memory", cmd_x },
+        { "p", "Evaluate the value of expression", cmd_p },
+	{ "w", "Set watchpoint", cmd_w },
+	{ "d", "Delete watchpoint", cmd_d }
 
 };
 
@@ -90,79 +172,6 @@ static int cmd_help(char *args) {
 		}
 		printf("Unknown command '%s'\n", arg);
 	}
-	return 0;
-}
-
-static int cmd_si(char *args) {
-	/**/
-	if(args == NULL)
-	{
-		cpu_exec(1);
-	}
-	else{
-		int num;
-		sscanf(args,"%d",&num);
-		cpu_exec(num);
-	}
-	return 0;
-}
-
-static int cmd_info(char *args) {
-
-	if(strcmp(args,"r") == 0) {
-		int i;
-		for( i=0;i<8;i++) {
-			printf("the %s reg is 0x%08x\n",regsl[i],reg_l(i));	
-		}
-	}
-	else if(strcmp(args,"w")==0) {
-		info_wp();
-	}
-	return 0;
-}
-
-static int cmd_x(char *args) {
-	int num;
-	uint32_t addr;
-	bool ok;
-	if(args==NULL) assert(0);
-	char str[64];
-	sscanf(args,"%d %s",&num,str);
-	int i;
-	addr = expr(str,&ok);
-	if(!ok) assert(0);
-	for(i=0;i<num;i++) {
-		printf("0x%08x\n",swaddr_read(addr,4));
-		addr+=4;
-	}
-	printf("\n");
-	return 0;
-}
-
-static int cmd_p(char *args) {
-	bool op;
-	int ans = expr(args,&op);
-	if(op)
-		printf("0x%08x is %d\n",ans,ans);
-	else assert (0);
-	return 0;
-}
-
-static int cmd_w(char *args) {
-	WP *wp = new_wp();
-	bool suc;
-	printf("watchpoint %d: %s\n",wp->NO,args);
-	wp->val = expr(args,&suc);
-	if(!suc) assert(0);
-	strcpy(wp->str,args);
-	printf("the val is %d\n",wp->val);		
-	return 0;	
-}
-
-static int cmd_d(char *args) {
-	int num;
-	sscanf(args,"%d",&num);
-	delete_wp(num);	
 	return 0;
 }
 
