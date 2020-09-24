@@ -61,6 +61,7 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
+	printf("12\n");
 	int b = *(int*)&a;
 	int sign = (b>>31);
 	int exp = b>>23;
