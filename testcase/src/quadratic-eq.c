@@ -5,9 +5,10 @@
 
 int main() {
 	//FLOAT a = f2F(0.5);
-	FLOAT b = f2F(3.0);
+	FLOAT b = f2F(3);
+	
 	//FLOAT c = f2F(-0.5);
-	FLOAT d = F_mul_F(b, b);
+	FLOAT d = F_mul_int(b, 3);
 	FLOAT e = f2F(9.0);
 	nemu_assert(d==e);
 	//FLOAT dt = F_mul_F(b, b) - F_mul_F(F_mul_int(a, 4), c);
