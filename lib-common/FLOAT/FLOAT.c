@@ -3,7 +3,7 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	//nemu_assert(0);
 	long long ans = (long long)a*(long long)b;
-	return ans>>16;
+	return (FLOAT)ans>>16;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
