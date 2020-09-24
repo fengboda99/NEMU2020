@@ -65,11 +65,11 @@ FLOAT f2F(float a) {
 	int exp = b>>23;
 	exp&=0xff;
 	FLOAT f = b&0x7fffff;
-	if(!exp) return 0;
-	f+=(1<<23);
+	if(exp==0) return 0;
+	f|=(1<<23);
 	exp-=134;
 	if(exp>0) f<<= exp;
-	if(exp<0) f>>= (-exp);
+	if(exp<0) f>>= -exp;
    	return sign==0?f:-f;
 	//nemu_assert(0);
 }
