@@ -3,7 +3,6 @@
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	//nemu_assert(0);
 	long long ans = (long long)a*(long long)b;
-	printf("123\n");
 	return ans>>16;
 }
 
@@ -61,8 +60,6 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-	printf("12\n");
-	fflush(stdout);
 	int b = *(int*)&a;
 	int sign = (b>>31);
 	int exp = b>>23;
