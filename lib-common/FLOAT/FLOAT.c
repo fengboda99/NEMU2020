@@ -62,6 +62,7 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 	printf("12\n");
+	fflush(stdout);
 	int b = *(int*)&a;
 	int sign = (b>>31);
 	int exp = b>>23;
