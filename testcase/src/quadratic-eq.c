@@ -10,7 +10,7 @@ int main() {
 	//FLOAT c = f2F(-0.5);
 	FLOAT d = F_mul_F(3<<16, 3<<16);
 	//FLOAT e = f2F(9.0);
-	set_bp();
+	//set_bp();
 	nemu_assert(d==(9<<16));
 	//FLOAT dt = F_mul_F(b, b) - F_mul_F(F_mul_int(a, 4), c);
 	//FLOAT sqrt_dt = sqrt(dt);
