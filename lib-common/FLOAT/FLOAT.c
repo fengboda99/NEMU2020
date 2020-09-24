@@ -76,8 +76,7 @@ FLOAT f2F(float a) {
 
 FLOAT Fabs(FLOAT a) {
 	//nemu_assert(0);
-	int sign = a>>31;
-	if(sign) a = -a;
+	if(a<0) a = -a;
 	return a;
 }
 
