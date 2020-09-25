@@ -5,7 +5,7 @@
 
 static void do_execute() {
 	int d = op_src -> val;
-	reg_l(R_ESP) -= 4;
+	reg_l(R_ESP) -= DATA_BYTE;
 	swaddr_write(reg_l(R_ESP),4,cpu.eip+5);
 	cpu.eip+=d;
 	print_asm_template1();
@@ -13,7 +13,7 @@ static void do_execute() {
 
 make_helper(concat(call_rm_,SUFFIX)) {
 	int d = op_src -> val;
-	reg_l(R_ESP) -= 4;
+	reg_l(R_ESP) -= DATA_BYTE;
 	swaddr_write(reg_l(R_ESP),4,cpu.eip+5);
 	cpu.eip=d-5;
 	print_asm_template1();
