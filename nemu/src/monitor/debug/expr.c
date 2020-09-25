@@ -136,7 +136,7 @@ int dominant_operator(int l,int r) {
 	int i;
 	int cnt = 0; // count the parentheses
 	for(i=r;i>=l;i--) {
-		if(tokens[i].type == NUMBER_1||tokens[i].type == NUMBER_2 || tokens[i].type==REGISTER) continue;
+		if(tokens[i].type == NUMBER_1||tokens[i].type == NUMBER_2 || tokens[i].type==REGISTER || tokens[i].type==VALUE) continue;
 		if(tokens[i].type == ')') cnt++;
 		else if(tokens[i].type == '(') cnt--;
 		if(cnt==0) {
@@ -153,6 +153,8 @@ int dominant_operator(int l,int r) {
 	}
 	return position;
 }
+
+uint32_t getvalue(char* s,bool* success);
 
 uint32_t eval(int l,int r) {
 	//printf("nice %d %d\n",l,r);
@@ -190,14 +192,11 @@ uint32_t eval(int l,int r) {
 			}
 			else assert(1); 	
 		}
-		/*else if(tokens[l].type==VALUE) {
-			int i;
-			for(i=0;i<nr_symtab_entry;i++) {
-				if(symtab[i].st_info==STT_OBJECT) {
-					
-				}			
-			}
-		}*/
+		else if(tokens[l].type==VALUE) {
+			bool ff;
+			value = getvalue(tokens[l].str,&ff);
+			if(ff) value = -1;
+		}
 		else assert(0);
 		return value;
 	}
@@ -243,12 +242,12 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 	int i;
 	for(i=0;i<nr_token;i++) {
-		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
+		if(tokens[i].type=='-'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER&&tokens[i-1].type!=VALUE))) {
 			//printf("123\n");
 			tokens[i].type = MINUS;
 			tokens[i].prior = 5;
 		}
-		if(tokens[i].type=='*'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER))) {
+		if(tokens[i].type=='*'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER&&tokens[i-1].type!=VALUE))) {
 			tokens[i].type = POINTER;
 			tokens[i].prior = 5;
 		}
