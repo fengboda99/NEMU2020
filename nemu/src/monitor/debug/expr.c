@@ -140,7 +140,7 @@ int dominant_operator(int l,int r) {
 		if(tokens[i].type == ')') cnt++;
 		else if(tokens[i].type == '(') cnt--;
 		if(cnt==0) {
-			printf("%s\n",tokens[i].str);
+			printf("%d\n",i);
 			if(position==l&&i!=l&&tokens[i].prior!=6) position = i;
 			else if(tokens[i].prior<tokens[position].prior) {
 				//printf("%d %d\n",tokens[i].prior,tokens[position].prior);
