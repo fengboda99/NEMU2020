@@ -34,6 +34,12 @@
 #include "control-trans/ja.h"
 #include "control-trans/js.h"
 #include "control-trans/jns.h"
+#include "control-trans/jo.h"
+#include "control-trans/jno.h"
+#include "control-trans/jb.h"
+#include "control-trans/jnb.h"
+#include "control-trans/jp.h"
+#include "control-trans/jnp.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
