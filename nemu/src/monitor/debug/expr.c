@@ -140,7 +140,6 @@ int dominant_operator(int l,int r) {
 		if(tokens[i].type == ')') {cnt++;continue;}
 		else if(tokens[i].type == '(') {cnt--;continue;}
 		if(cnt==0) {
-			printf("%d %d\n",i,l);
 			if(position==l&&i!=l&&tokens[i].prior!=6) position = i;
 			else if(tokens[i].prior<tokens[position].prior) {
 				//printf("%d %d\n",tokens[i].prior,tokens[position].prior);
@@ -210,7 +209,7 @@ uint32_t eval(int l,int r) {
 			//printf("%d\n",val);
 			switch(tokens[position].type) {
 				case MINUS: return -val;
-				case POINTER: return swaddr_read(val,4);
+				case POINTER: return swaddr_read(val,1);
 				case '!': return !val;
 				default: break;
 			}
