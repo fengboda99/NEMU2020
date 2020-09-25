@@ -16,7 +16,7 @@ make_helper(concat(call_rm_,SUFFIX)) {
 	int d = op_src -> val;
 	printf("%x\n",d);
 	reg_l(R_ESP) -= DATA_BYTE;
-	swaddr_write(reg_l(R_ESP),4,cpu.eip+5);
+	swaddr_write(reg_l(R_ESP),4,cpu.eip+len+1);
 	cpu.eip=d-len-1;
 	print_asm_template1();
 	return len+1;
