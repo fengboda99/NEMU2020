@@ -137,8 +137,8 @@ int dominant_operator(int l,int r) {
 	int cnt = 0; // count the parentheses
 	for(i=r;i>=l;i--) {
 		if(tokens[i].type == NUMBER_1||tokens[i].type == NUMBER_2 || tokens[i].type==REGISTER || tokens[i].type==VALUE) continue;
-		if(tokens[i].type == ')') cnt++;
-		else if(tokens[i].type == '(') cnt--;
+		if(tokens[i].type == ')') {cnt++;continue;}
+		else if(tokens[i].type == '(') {cnt--;continue;}
 		if(cnt==0) {
 			printf("%d %d\n",i,l);
 			if(position==l&&i!=l&&tokens[i].prior!=6) position = i;
