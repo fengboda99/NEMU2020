@@ -209,7 +209,7 @@ uint32_t eval(int l,int r) {
 			//printf("%d\n",val);
 			switch(tokens[position].type) {
 				case MINUS: return -val;
-				case POINTER: return swaddr_read(val,1);
+				case POINTER: return swaddr_read(val,4);
 				case '!': return !val;
 				default: break;
 			}
