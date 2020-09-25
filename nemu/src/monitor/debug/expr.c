@@ -250,6 +250,7 @@ uint32_t expr(char *e, bool *success) {
 		if(tokens[i].type=='*'&&(i==0||(tokens[i-1].type!=NUMBER_1&&tokens[i-1].type!=')'&&tokens[i-1].type!=NUMBER_2&&tokens[i-1].type!=REGISTER&&tokens[i-1].type!=VALUE))) {
 			tokens[i].type = POINTER;
 			tokens[i].prior = 5;
+			printf("1\n");
 		}
 	}
 	*success = true;
