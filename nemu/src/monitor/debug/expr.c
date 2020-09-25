@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NUMBER_1, MINUS, NUMBER_2, POINTER, REGISTER, NEQ, AND, OR
+	NOTYPE = 256, EQ, NUMBER_1, MINUS, NUMBER_2, POINTER, REGISTER, VALUE, NEQ, AND, OR
 
 	/* TODO: Add more token types */
 
@@ -33,6 +33,7 @@ static struct rule {
 	{"\\b[0-9]+\\b", NUMBER_1, 0},				//number
 	{"\\b0[xX][0-9a-zA-Z]+\\b", NUMBER_2, 0},		//16number
 	{"\\$[a-zA-Z]+", REGISTER, 0},                      	//register
+	{"\\b[a-zA-Z_0-9]+", VALUE, 0},                      	//value
 	{"!=", NEQ, 2},  					//not equal
 	{"!", '!', 5},						//not
 	{"&&", AND, 1},						//AND
@@ -189,6 +190,14 @@ uint32_t eval(int l,int r) {
 			}
 			else assert(1); 	
 		}
+		/*else if(tokens[l].type==VALUE) {
+			int i;
+			for(i=0;i<nr_symtab_entry;i++) {
+				if(symtab[i].st_info==STT_OBJECT) {
+					
+				}			
+			}
+		}*/
 		else assert(0);
 		return value;
 	}
