@@ -26,6 +26,7 @@ uint32_t getvalue(char* s,bool* success) {
 
 void getfunc(swaddr_t addr,char* s) {
 	int i;
+	printf("123\n");
 	for(i=0;i<nr_symtab_entry;i++) {
 		if((symtab[i].st_info&0xf)==STT_FUNC&&symtab[i].st_value<=addr&&symtab[i].st_value+symtab[i].st_size>=addr) {
 			printf("123\n");
