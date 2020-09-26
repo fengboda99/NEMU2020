@@ -117,7 +117,7 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_info(char *args) {
-
+	printf("123\n");
 	if(strcmp(args,"r") == 0) {
 		int i;
 		for( i=0;i<8;i++) {
