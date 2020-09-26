@@ -181,13 +181,13 @@ static int cmd_bt(char *args) {
 	//printf("123\n");
 	PartOfStackFrame s;
 	swaddr_t addr = reg_l(R_EBP);
-	printf("%x\n",addr);
+	//printf("%x\n",addr);
 	s.ret_addr = cpu.eip;
 	char ss[32];
 	int cnt=0;
 	while(addr) {
 		getfunc(addr,ss);
-		printf("%s\n",ss);	
+		//printf("%s\n",ss);	
 		if(ss[0]=='\0') break;
 		printf("id:%d 0x%x: ",cnt++,s.ret_addr);
 		printf("%s (",ss);
