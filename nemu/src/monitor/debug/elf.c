@@ -28,9 +28,11 @@ void getfunc(swaddr_t addr,char* s) {
 	int i;
 	for(i=0;i<nr_symtab_entry;i++) {
 		if((symtab[i].st_info&0xf)==STT_FUNC) {
-			printf("%s\n",strtab+symtab[i].st_name);
+			printf("%x\n",symtab[i].st_value);
+			printf("%x\n",symtab[i].st_value+symtab[i].st_size);
+			printf("%x\n",addr);
 		}
-		if((symtab[i].st_info&0xf)==STT_FUNC&&symtab[i].st_value<=addr&&symtab[i].st_value+symtab[i].st_size>=addr) {
+		if((symtab[i].st_info&0xf)==STT_FUNC && symtab[i].st_value<=addr && symtab[i].st_value+symtab[i].st_size >= addr) {
 			printf("123\n");
 			strcpy(s,strtab+symtab[i].st_name);
 			return ;
