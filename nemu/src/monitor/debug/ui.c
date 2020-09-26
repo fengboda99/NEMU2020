@@ -175,13 +175,29 @@ static int cmd_d(char *args) {
 	return 0;
 }
 
+void getfunc(swaddr_t addr,char* s);
+
 static int cmd_bt(char *args) {
 	PartOfStackFrame s;
 	swaddr_t addr = reg_l(R_EBP);
 	s.ret_addr = cpu.eip;
+	char ss[32];
+	int cnt=0;
 	while(addr) {
-		
-			
+		getfunc(addr,ss);	
+		if(ss[0]=='\0') break;
+		printf("id:%d 0x%x: ",cnt++,s.ret_addr);
+		printf("%s (",ss);
+		int i;
+		for(i=0;i<4;i++) {
+			s.args[i] = swaddr_read(addr+8+4*i,4);
+			printf("%d",s.args[i]);
+			printf("%c",i==3?')':',');		
+		}
+		s.ret_addr=swaddr_read(addr+4,4);
+		s.prev_ebp=swaddr_read(addr,4);
+		addr = s.prev_ebp;
+		printf("\n");
 	}
 	return 0;
 }
