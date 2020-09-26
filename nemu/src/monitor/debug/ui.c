@@ -10,6 +10,12 @@
 void cpu_exec(uint32_t);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
+typedef struct {
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+}PartOfStackFrame;
+
 char* rl_gets() {
 	static char *line_read = NULL;
 
@@ -50,6 +56,8 @@ static int cmd_w(char *args);
 
 static int cmd_d(char *args);
 
+static int cmd_bt(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -64,6 +72,7 @@ static struct {
 	{ "p", "expression", cmd_p},
 	{ "w", "watchpoint", cmd_w},
 	{ "d", "delete watchpoint", cmd_d},
+	{ "bt", "delete watchpoint", cmd_bt},
 	 /* TODO: Add more commands */
 
 };
@@ -163,6 +172,17 @@ static int cmd_d(char *args) {
 	int num;
 	sscanf(args,"%d",&num);
 	delete_wp(num);	
+	return 0;
+}
+
+static int cmd_bt(char *args) {
+	PartOfStackFrame s;
+	swaddr_t addr = reg_l(R_EBP);
+	s.ret_addr = cpu.eip;
+	while(addr) {
+		
+			
+	}
 	return 0;
 }
 
