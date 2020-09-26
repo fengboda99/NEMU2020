@@ -178,6 +178,7 @@ static int cmd_d(char *args) {
 void getfunc(swaddr_t addr,char* s);
 
 static int cmd_bt(char *args) {
+	printf("123\n");
 	PartOfStackFrame s;
 	swaddr_t addr = reg_l(R_EBP);
 	s.ret_addr = cpu.eip;
