@@ -54,7 +54,8 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 USERPROG := obj/testcase/add-longlong
-ENTRY := $(USERPROG)
+#ENTRY := $(USERPROG)
+ENTRY := $(kernel-BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
