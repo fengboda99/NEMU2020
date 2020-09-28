@@ -12,6 +12,7 @@ static void do_execute() {
 	else cpu.ZF = 0;
 	//printf("%d\n",cpu.ZF);
 	int cnt = 0;
+	ans&=0xff;
 	while(ans) {
 		ans = ans&(ans-1);
 		cnt++;

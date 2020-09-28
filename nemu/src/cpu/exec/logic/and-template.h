@@ -13,6 +13,7 @@ static void do_execute () {
 	int ccc = result;
 	cpu.SF= ccc<0?1:0;
 	int cnt=0;
+	ccc&=0xff;
 	while(ccc)
 	{
 		ccc = ccc&(ccc-1);

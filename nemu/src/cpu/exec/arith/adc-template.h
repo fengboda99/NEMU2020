@@ -9,6 +9,7 @@ static void do_execute() {
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
  	DATA_TYPE n =op_src->val+op_dest->val+cpu.CF;
+	n&=0xff;
 	int cnt =0;
 	while(n) {
 		n = n&(n-1);
