@@ -108,7 +108,7 @@ static void modify_ppfs_setargs() {
 	char *tmp = (char *)(addr + 0x71);	
 	*tmp = 0xeb;		
 	tmp = (char *)(addr + 0x72);
-	*tmp = 0x;	
+	*tmp = 0x30;	
 	/* TODO: Implement this function to modify the action of preparing
 	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
 	 * Below is the code section in _vfprintf_internal() relative to
