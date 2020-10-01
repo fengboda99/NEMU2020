@@ -20,6 +20,7 @@ static void do_execute() {
 	cpu.CF = (unsigned int)d2< (unsigned int)d1;	
 	OPERAND_W(op_dest,ans);
 }
+make_instr_helper(i2a);
 #if DATA_BYTE == 2 || DATA_BYTE==4
 make_instr_helper(si2rm);
 #endif
