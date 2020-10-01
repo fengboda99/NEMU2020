@@ -20,7 +20,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	char buf[80];
 	int sign = f>>31;
 	if(sign) f = -f;
-	int tmp = 50000000;
+	int tmp = 500000000;
 	int res=0,i,len;
 	for(i=15;i>=0;i--) {
 		if(f&(1<<i)) res+=tmp;
