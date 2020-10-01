@@ -40,6 +40,7 @@ make_helper(concat(scas_1_,SUFFIX)) {
 	cpu.ZF = !ans;
 	cpu.SF = ans<0?1:0;
  	int n =ans;
+	n&=0xff;
 	int cnt =0;
 	while(n) {
 		n = n&(n-1);
