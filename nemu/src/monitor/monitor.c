@@ -87,7 +87,9 @@ void restart() {
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
 	cpu.eflags = 2;
-	
+	cpu.cr0.protect_enable=0;
+	cpu.cr0.paging=0;
+
 	cache_init();
 	/* Initialize DRAM. */
 	init_ddr3();

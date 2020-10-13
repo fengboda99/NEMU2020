@@ -28,4 +28,26 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	return 5;
 }
 
+#if DATA_BYTE == 4
+make_helper(concat(mov_cr2r_, SUFFIX)) {
+	uint8_t opcode = instr_fetch(eip + 1, 4);
+	
+	if(opcode==0xc0) {
+		cpu.eax = cpu.cr0.val;	
+	}
+	//print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
+	return 2;
+}
+
+make_helper(concat(mov_r2cr_, SUFFIX)) {
+	uint8_t opcode = instr_fetch(eip + 1, 4);
+	
+	if(opcode==0xc0) {
+		cpu.cr0.val = cpu.eax;	
+	}
+	//print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
+	return 2;
+}
+#endif
+
 #include "cpu/exec/template-end.h"
