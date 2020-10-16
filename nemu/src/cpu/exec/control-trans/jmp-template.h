@@ -25,10 +25,13 @@ make_helper(ljmp) {
 	uint16_t op_second = instr_fetch(eip+5,2);
 	cpu.eip = op_first;
 	cpu.cs.selector = op_second;
+	printf("1\n");
 	Assert(((cpu.cs.selector>>3)<<3) <= cpu.gdtr.seg_limit, "OUT LIMIT %d, %d", ((cpu.cs.selector>>3)<<3), cpu.gdtr.seg_limit);
+	printf("2\n");
 	seg_des->first = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3), 4);
 	seg_des->second = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3)+4, 4);
 	Assert(seg_des->p == 1, "segment ERROR");
+	printf("3\n");
 	cpu.cs.base_addr1 = seg_des->base_addr1;
 	cpu.cs.base_addr2 = seg_des->base_addr2;
 	cpu.cs.base_addr3 = seg_des->base_addr3;
