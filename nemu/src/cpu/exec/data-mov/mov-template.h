@@ -61,19 +61,17 @@ make_helper(mov_seg) {
 		cpu.ds.selector = reg_w(R_EAX);
 		current_sreg = R_DS;
 		seg_do();
-		print_asm("mov %%%s, ds", REG_NAME(R_EAX));
+			
 	}
 	else if(opcode == 0xc0) {
 		cpu.es.selector = reg_w(R_EAX);
 		current_sreg = R_ES;
 		seg_do();
-		print_asm("mov %%%s, es", REG_NAME(R_EAX));
 	}
 	else if(opcode == 0xd0) {
 		cpu.ss.selector = reg_w(R_EAX);
 		current_sreg = R_SS;
 		seg_do();
-		print_asm("mov %%%s, ss", REG_NAME(R_EAX));
 	}
 	return 2;
 }
