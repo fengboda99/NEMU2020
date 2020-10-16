@@ -54,7 +54,7 @@ make_helper(concat(mov_r2cr_, SUFFIX)) {
 
 #if DATA_BYTE == 2 
 make_helper(mov_seg) {
-	printf("1\n");
+	//printf("1\n");
 	uint8_t opcode = instr_fetch(eip + 1, 1);
 	//printf("1\n");
 	if(opcode == 0xd8) {
