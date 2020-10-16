@@ -56,7 +56,7 @@ make_helper(concat(mov_r2cr_, SUFFIX)) {
 make_helper(mov_seg) {
 	//printf("1\n");
 	uint8_t opcode = instr_fetch(eip + 1, 1);
-	//printf("1\n");
+	printf("it is a problem\n");
 	if(opcode == 0xd8) {
 		//printf("1\n");
 		cpu.ds.selector = reg_w(R_EAX);
