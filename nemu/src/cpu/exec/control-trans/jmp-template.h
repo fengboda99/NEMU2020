@@ -30,7 +30,7 @@ make_helper(ljmp) {
 	printf("2\n");
 	seg_des->first = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3), 4);
 	seg_des->second = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3)+4, 4);
-	Assert(seg_des->p == 1, "segment ERROR");
+	//Assert(seg_des->p == 1, "segment ERROR");
 	printf("3\n");
 	cpu.cs.base_addr1 = seg_des->base_addr1;
 	cpu.cs.base_addr2 = seg_des->base_addr2;
