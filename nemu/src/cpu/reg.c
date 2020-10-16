@@ -46,8 +46,8 @@ void seg_do() {
 	uint16_t sreg = current_sreg;
 	Assert(cpu.cr0.protect_enable,"Not in PM");
 	uint16_t index = cpu.sr[sreg].selector >> 3;
-	printf("1\n");
 	Assert(index*8<cpu.gdtr.seg_limit,"OUT LIMIT");
+	printf("1\n");
 	seg_des->first = lnaddr_read(cpu.gdtr.base_addr+index*8,4);
 	seg_des->second = lnaddr_read(cpu.gdtr.base_addr+index*8+4,4);
 	Assert(seg_des->p == 1, "segment error");
