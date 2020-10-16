@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-#include "cpu/reg.h"
 
 #define instr jmp
 
@@ -21,7 +20,9 @@ make_instr_helper(rm);
 
 #if DATA_BYTE == 4
 make_helper(ljmp) {
-	seg_des->first = 1;
+	extern SEG_descriptor *seg_des;
+	SEG_descriptor seg;
+	seg_des = &seg;
 	uint32_t op_first = instr_fetch(eip+1,4);
 	uint16_t op_second = instr_fetch(eip+5,2);
 	cpu.eip = op_first;
