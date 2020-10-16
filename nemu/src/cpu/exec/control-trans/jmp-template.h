@@ -29,6 +29,7 @@ make_helper(ljmp) {
 	Assert(((cpu.cs.selector>>3)<<3) <= cpu.gdtr.seg_limit, "OUT LIMIT %d, %d", ((cpu.cs.selector>>3)<<3), cpu.gdtr.seg_limit);
 	printf("2\n");
 	seg_des->first = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3), 4);
+	printf("3\n");
 	seg_des->second = instr_fetch(cpu.gdtr.base_addr + ((cpu.cs.selector>>3)<<3)+4, 4);
 	//Assert(seg_des->p == 1, "segment ERROR");
 	printf("3\n");
