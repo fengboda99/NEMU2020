@@ -17,8 +17,22 @@ enum { R_ES, R_CS, R_SS, R_DS, R_FS, R_GS };
  */
 
 typedef struct {
-	uint32_t base;
-	uint32_t seg_limit;
+	union {
+		uint32_t base_addr;
+		struct {
+			uint32_t base_addr1 :16;
+			uint32_t base_addr2 :8;
+			uint32_t base_addr3 :8;		
+		};
+	};
+	union {
+		uint32_t seg_limit;
+		struct {
+			uint32_t seg_limit1 :16;
+			uint32_t seg_limit2 :4;
+			uint32_t seg_limit3 :12;
+		};
+	};
 	uint16_t selector;
 } SREG;
 
@@ -78,8 +92,35 @@ typedef struct {
 
 } CPU_state;
 
+typedef struct {
+	union {
+		struct {
+			uint32_t seg_limit1	:16;
+			uint32_t base_addr1	:16;
+		};
+		uint32_t first;
+	};
+	union {
+		struct {
+			uint32_t base_addr2 	:8;
+			uint32_t type		:5;
+			uint32_t dpl		:2;
+			uint32_t p		:1;
+			uint32_t seg_limit2	:4;
+			uint32_t avl		:1;
+			uint32_t 		:1;
+			uint32_t b		:1;
+			uint32_t g		:1;
+			uint32_t base_addr3	:8;
+		};
+		uint32_t second;
+	};
+}SEG_descriptor;
+
 extern CPU_state cpu;
 uint8_t current_sreg;
+SEG_descriptor* seg_des;
+void seg_do();
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
 	return index;

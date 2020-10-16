@@ -3,6 +3,7 @@
 #define instr lods
 
 make_helper(concat(lods_1_,SUFFIX)) {
+	current_sreg = R_DS;
 	if(DATA_BYTE==2)
 	{
 		reg_w(R_AX)=swaddr_read(reg_w(R_SI),2);

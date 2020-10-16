@@ -89,7 +89,8 @@ void restart() {
 	cpu.eflags = 2;
 	cpu.cr0.protect_enable=0;
 	cpu.cr0.paging=0;
-
+	cpu.cs.base_addr = 0;
+	cpu.cs.seg_limit = 0xffffffff;
 	cache_init();
 	/* Initialize DRAM. */
 	init_ddr3();

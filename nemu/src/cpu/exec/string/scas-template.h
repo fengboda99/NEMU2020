@@ -4,6 +4,7 @@
 
 make_helper(concat(scas_1_,SUFFIX)) {
 	int d1,d2;
+	current_sreg = R_ES;
 	if(DATA_BYTE==2)
 	{
 		d1 = swaddr_read(reg_w(R_DI),2);

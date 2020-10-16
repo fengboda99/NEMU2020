@@ -140,6 +140,7 @@ static int cmd_x(char *args) {
 	int i;
 	addr = expr(str,&ok);
 	if(!ok) assert(0);
+	current_sreg = R_DS;
 	for(i=0;i<num;i++) {
 		printf("0x%08x\n",swaddr_read(addr,4));
 		addr+=4;
@@ -191,6 +192,7 @@ static int cmd_bt(char *args) {
 		if(ss[0]=='\0') break;
 		printf("id:%d 0x%x: ",cnt++,s.ret_addr);
 		printf("%s (",ss);
+		current_sreg = R_SS;
 		int i;
 		for(i=0;i<4;i++) {
 			s.args[i] = swaddr_read(addr+8+4*i,4);

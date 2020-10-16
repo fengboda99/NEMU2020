@@ -14,6 +14,7 @@ make_instr_helper(rm2r)
 
 make_helper(concat(mov_a2moffs_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
+	current_sreg = R_DS;
 	MEM_W(addr, REG(R_EAX));
 
 	print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
@@ -22,6 +23,7 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 
 make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
+	current_sreg = R_DS;
 	REG(R_EAX) = MEM_R(addr);
 
 	print_asm("mov" str(SUFFIX) " 0x%x,%%%s", addr, REG_NAME(R_EAX));
@@ -30,7 +32,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 #if DATA_BYTE == 4
 make_helper(concat(mov_cr2r_, SUFFIX)) {
-	uint8_t opcode = instr_fetch(eip + 1, 4);
+	uint8_t opcode = instr_fetch(eip + 1, 1);
 	
 	if(opcode==0xc0) {
 		cpu.eax = cpu.cr0.val;	
@@ -40,12 +42,35 @@ make_helper(concat(mov_cr2r_, SUFFIX)) {
 }
 
 make_helper(concat(mov_r2cr_, SUFFIX)) {
-	uint8_t opcode = instr_fetch(eip + 1, 4);
+	uint8_t opcode = instr_fetch(eip + 1, 1);
 	
 	if(opcode==0xc0) {
 		cpu.cr0.val = cpu.eax;	
 	}
 	//print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
+	return 2;
+}
+#endif
+
+#if DATA_BYTE == 2 
+make_helper(mov_seg) {
+	uint8_t opcode = instr_fetch(eip + 1, 1);
+	if(opcode == 0xd8) {
+		cpu.ds.selector = reg_w(R_EAX);
+		current_sreg = R_DS;
+		seg_do();
+			
+	}
+	else if(opcode == 0xc0) {
+		cpu.es.selector = reg_w(R_EAX);
+		current_sreg = R_ES;
+		seg_do();
+	}
+	else if(opcode == 0xd0) {
+		cpu.ss.selector = reg_w(R_EAX);
+		current_sreg = R_SS;
+		seg_do();
+	}
 	return 2;
 }
 #endif

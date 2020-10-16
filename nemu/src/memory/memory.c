@@ -11,7 +11,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg) {
 	if(cpu.cr0.protect_enable==0) return addr;
 	Assert(addr+len<cpu.sr[sreg].seg_limit,"OUT LIMIT");
-	return cpu.sr[sreg].base+addr;
+	return cpu.sr[sreg].base_addr+addr;
 }
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
