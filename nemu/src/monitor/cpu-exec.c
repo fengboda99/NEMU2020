@@ -60,21 +60,20 @@ void cpu_exec(volatile uint32_t n) {
 
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
+		printf("%x\n",cpu.eip);		
 		int instr_len = exec(cpu.eip);
-
+		
 		cpu.eip += instr_len;
 		printf("%x\n",cpu.eip);
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
-		printf("%s\n",asm_buf);
 		Log_write("%s\n", asm_buf);
-		printf("2\n");
 		if(n_temp < MAX_INSTR_TO_PRINT) {
 			printf("%s\n", asm_buf);
 		}
 #endif
-		printf("3\n");
+
 		/* TODO: check watchpoints here. */
 		
 		if(check_wp()) nemu_state = STOP;
