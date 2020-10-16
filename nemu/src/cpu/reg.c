@@ -50,7 +50,6 @@ void seg_do() {
 	seg_des->first = lnaddr_read(cpu.gdtr.base_addr+index*8,4);
 	seg_des->second = lnaddr_read(cpu.gdtr.base_addr+index*8+4,4);
 	Assert(seg_des->p == 1, "segment error");
-	printf("1\n");
 	cpu.sr[sreg].base_addr1 = seg_des->base_addr1;
 	cpu.sr[sreg].base_addr2 = seg_des->base_addr2;
 	cpu.sr[sreg].base_addr3 = seg_des->base_addr3;
@@ -58,6 +57,7 @@ void seg_do() {
 	cpu.sr[sreg].seg_limit2 = seg_des->seg_limit2;
 	cpu.sr[sreg].seg_limit3 = 0xfff;
     	if (seg_des->g) cpu.sr[sreg].seg_limit <<= 12;
+	printf("1\n");
 }
 
 
