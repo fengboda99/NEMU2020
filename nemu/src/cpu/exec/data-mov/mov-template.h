@@ -55,7 +55,7 @@ make_helper(concat(mov_r2cr_, SUFFIX)) {
 #if DATA_BYTE == 2 
 make_helper(mov_seg) {
 	uint8_t opcode = instr_fetch(eip + 1, 1);
-	printf("1\n");
+	//printf("1\n");
 	if(opcode == 0xd8) {
 		cpu.ds.selector = reg_w(R_EAX);
 		current_sreg = R_DS;
