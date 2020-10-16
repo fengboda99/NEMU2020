@@ -72,7 +72,7 @@ make_helper(mov_seg) {
 		current_sreg = R_SS;
 		seg_do();
 	}
-	printf("1\n");
+	//printf("1\n");
 	return 2;
 }
 #endif
