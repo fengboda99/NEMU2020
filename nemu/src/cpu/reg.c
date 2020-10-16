@@ -57,7 +57,7 @@ void seg_do() {
 	cpu.sr[sreg].seg_limit2 = seg_des->seg_limit2;
 	cpu.sr[sreg].seg_limit3 = 0xfff;
     	if (seg_des->g) cpu.sr[sreg].seg_limit <<= 12;
-	printf("1\n");
+	//printf("1\n");
 }
 
 
