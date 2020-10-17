@@ -20,7 +20,7 @@ make_instr_helper(rm);
 
 #if DATA_BYTE == 4
 make_helper(ljmp) {
-	extern SEG_descriptor *seg_des;
+	SEG_descriptor *seg_des;
 	SEG_descriptor seg;
 	seg_des = &seg;
 	uint32_t op_first = instr_fetch(eip+1,4);
