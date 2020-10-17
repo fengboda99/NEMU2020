@@ -35,7 +35,8 @@ make_helper(concat(mov_cr2r_, SUFFIX)) {
 	uint8_t opcode = instr_fetch(eip + 1, 1);
 	
 	if(opcode==0xc0) {
-		cpu.eax = cpu.cr0.val;	
+		cpu.eax = cpu.cr0.val;
+		print_asm("mov %%cr0,%%%s", REG_NAME(R_EAX));	
 	}
 	//print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 2;
@@ -46,6 +47,7 @@ make_helper(concat(mov_r2cr_, SUFFIX)) {
 	
 	if(opcode==0xc0) {
 		cpu.cr0.val = cpu.eax;	
+		print_asm("mov %%%s,%%cr0", REG_NAME(R_EAX));
 	}
 	//print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 2;
