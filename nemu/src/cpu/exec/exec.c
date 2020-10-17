@@ -231,7 +231,7 @@ make_helper(exec) {
 	//printf("1\n");
 	ops_decoded.opcode = instr_fetch(eip, 1);
 	//printf("2\n");
-	printf("%x %x",eip,cpu.eip);
+	printf("%x %x\n",eip,cpu.eip);
 	uint32_t tmp = opcode_table[ ops_decoded.opcode ](cpu.eip);
 	return tmp;
 }
