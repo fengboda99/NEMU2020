@@ -42,21 +42,21 @@ void reg_test() {
 	assert(eip_sample == cpu.eip);
 }
 
-void seg_do() {
-	uint16_t sreg = current_sreg;
+void seg_do(uint8_t sreg) {
+	SEG_descriptor seg_des;
 	Assert(cpu.cr0.protect_enable,"Not in PM");
-	uint16_t index = cpu.sr[sreg].selector >> 3;
+	uint32_t index = cpu.sr[sreg].selector >> 3;
 	Assert(index*8<cpu.gdtr.seg_limit,"OUT LIMIT");
-	seg_des->first = lnaddr_read(cpu.gdtr.base_addr+index*8,4);
-	seg_des->second = lnaddr_read(cpu.gdtr.base_addr+index*8+4,4);
-	Assert(seg_des->p == 1, "segment error");
-	cpu.sr[sreg].base_addr1 = seg_des->base_addr1;
-	cpu.sr[sreg].base_addr2 = seg_des->base_addr2;
-	cpu.sr[sreg].base_addr3 = seg_des->base_addr3;
-	cpu.sr[sreg].seg_limit1 = seg_des->seg_limit1;
-	cpu.sr[sreg].seg_limit2 = seg_des->seg_limit2;
+	seg_des.first = lnaddr_read(cpu.gdtr.base_addr+index*8,4);
+	seg_des.second = lnaddr_read(cpu.gdtr.base_addr+index*8+4,4);
+	Assert(seg_des.p == 1, "segment error");
+	cpu.sr[sreg].base_addr1 = seg_des.base_addr1;
+	cpu.sr[sreg].base_addr2 = seg_des.base_addr2;
+	cpu.sr[sreg].base_addr3 = seg_des.base_addr3;
+	cpu.sr[sreg].seg_limit1 = seg_des.seg_limit1;
+	cpu.sr[sreg].seg_limit2 = seg_des.seg_limit2;
 	cpu.sr[sreg].seg_limit3 = 0xfff;
-    	if (seg_des->g) cpu.sr[sreg].seg_limit <<= 12;
+    	if (seg_des.g) cpu.sr[sreg].seg_limit <<= 12;
 	//printf("1\n");
 }
 

@@ -4,10 +4,9 @@
 
 make_helper(concat(scas_1_,SUFFIX)) {
 	int d1,d2;
-	current_sreg = R_ES;
 	if(DATA_BYTE==2)
 	{
-		d1 = swaddr_read(reg_w(R_DI),2);
+		d1 = swaddr_read(reg_w(R_DI),2,R_ES);
 		d2 = reg_w(R_AX);
 		if(cpu.DF==0)
 		{
@@ -20,7 +19,7 @@ make_helper(concat(scas_1_,SUFFIX)) {
 	}
 	else 
 	{
-		d1 = swaddr_read(reg_l(R_EDI),4);
+		d1 = swaddr_read(reg_l(R_EDI),4,R_ES);
 		d2 = reg_l(R_EAX);
 		if(DATA_BYTE==1)
 		{

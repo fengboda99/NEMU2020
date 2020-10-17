@@ -5,10 +5,8 @@
 make_helper(concat(movs_1_,SUFFIX)) {
 	if(DATA_BYTE==2)
 	{
-		current_sreg = R_DS;
-		uint16_t ok= swaddr_read(reg_l(R_SI),2);
-		current_sreg = R_ES;
-		swaddr_write(reg_w(R_DI),2,ok);
+		uint16_t ok= swaddr_read(reg_l(R_SI),2,R_DS);
+		swaddr_write(reg_w(R_DI),2,ok,R_ES);
 		if(cpu.DF==0)
 		{
 			reg_w(R_DI)+=DATA_BYTE;
@@ -22,10 +20,8 @@ make_helper(concat(movs_1_,SUFFIX)) {
 	}
 	else 
 	{
-		current_sreg = R_DS;
-		uint32_t ok=swaddr_read(reg_l(R_ESI),4);
-		current_sreg = R_ES;
-		swaddr_write(reg_l(R_EDI),4,ok);
+		uint32_t ok=swaddr_read(reg_l(R_ESI),4,R_DS);
+		swaddr_write(reg_l(R_EDI),4,ok,R_ES);
 		if(cpu.DF==0)
 		{
 			reg_l(R_EDI)+=DATA_BYTE;

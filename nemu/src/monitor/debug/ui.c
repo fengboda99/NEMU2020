@@ -140,9 +140,8 @@ static int cmd_x(char *args) {
 	int i;
 	addr = expr(str,&ok);
 	if(!ok) assert(0);
-	current_sreg = R_DS;
 	for(i=0;i<num;i++) {
-		printf("0x%08x\n",swaddr_read(addr,4));
+		printf("0x%08x\n",swaddr_read(addr,4,R_DS));
 		addr+=4;
 	}
 	printf("\n");
@@ -192,15 +191,14 @@ static int cmd_bt(char *args) {
 		if(ss[0]=='\0') break;
 		printf("id:%d 0x%x: ",cnt++,s.ret_addr);
 		printf("%s (",ss);
-		current_sreg = R_SS;
 		int i;
 		for(i=0;i<4;i++) {
-			s.args[i] = swaddr_read(addr+8+4*i,4);
+			s.args[i] = swaddr_read(addr+8+4*i,4,R_SS);
 			printf("%d",s.args[i]);
 			printf("%c",i==3?')':',');		
 		}
-		s.ret_addr=swaddr_read(addr+4,4);
-		s.prev_ebp=swaddr_read(addr,4);
+		s.ret_addr=swaddr_read(addr+4,4,R_SS);
+		s.prev_ebp=swaddr_read(addr,4,R_SS);
 		addr = s.prev_ebp;
 		printf("\n");
 	}

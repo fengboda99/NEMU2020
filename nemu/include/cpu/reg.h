@@ -75,7 +75,7 @@ typedef struct {
 	};
 
 	CR0 cr0;
-	
+	CR3 cr3;
 	union {
 		SREG sr[6];
 		struct {
@@ -118,9 +118,8 @@ typedef struct {
 }SEG_descriptor;
 
 extern CPU_state cpu;
-uint8_t current_sreg;
 SEG_descriptor* seg_des;
-void seg_do();
+void seg_do(uint8_t sreg);
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
 	return index;
