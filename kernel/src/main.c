@@ -91,11 +91,11 @@ void init_cond() {
 	/* Clear the test data we just written in the video memory. */
 	video_mapping_clear();
 #endif
-
+	set_bp();
 #ifdef IA32_PAGE
 	/* Set the %esp for user program, which is one of the
 	 * convention of the "advanced" runtime environment. */
-	asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
+	//asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
 #endif
 
 	/* Keep the `bt' command happy. */
