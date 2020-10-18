@@ -32,7 +32,7 @@ void init() {
 
 	/* Jump to init_cond() to continue initialization. */
 	//asm volatile("jmp *%0" : : "r"(init_cond));
-
+	init_cond();
 	panic("should not reach here");
 }
 
@@ -47,7 +47,7 @@ void init_cond() {
 	 */
 	init_idt();
 #endif
-	
+
 #ifdef HAS_DEVICE
 	/* Initialize the intel 8259 PIC (Programmable interrupt controller). */
 	init_i8259();
@@ -61,7 +61,7 @@ void init_cond() {
 	/* Enable interrupts. */
 	sti();
 #endif
-	
+	set_bp();
 #ifdef IA32_PAGE
 	/* Initialize the memory manager. */
 	init_mm();
@@ -77,7 +77,7 @@ void init_cond() {
 	/* Write some test data to the video memory. */
 	video_mapping_write_test();
 #endif
-	set_bp();
+
 	/* Load the program. */
 	uint32_t eip = loader();
 	
@@ -100,7 +100,7 @@ void init_cond() {
 	/* Keep the `bt' command happy. */
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");
-	
+
 	/* Here we go! */
 	((void(*)(void))eip)();
 
