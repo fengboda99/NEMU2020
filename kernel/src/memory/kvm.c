@@ -42,7 +42,7 @@ void init_page(void) {
 
 
 	
-		===== referenced code for the inline assembly above =====
+		//===== referenced code for the inline assembly above =====
 
 		uint32_t pframe_addr = PHY_MEM - PAGE_SIZE;
 		ptable --;
