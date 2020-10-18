@@ -15,18 +15,22 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg) {
 }
 
 hwaddr_t page_translate(lnaddr_t addr,size_t len) {
-	if(cpu.cr0.paging==0&&cpu.cr0.protect_enable==0) return addr;
-	uint32_t dir = addr >> 22; 
-	uint32_t page = (addr>>12)&0x3ff;
-	uint32_t offset = addr&0xfff;
-	Page_entry dir_1,page_1;
-	dir_1.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(dir<<2),4);
-	Assert(dir_1.p,"Invalid page");
-	page_1.val = hwaddr_read((dir_1.base<<12)+(page<<2),4);
-	Assert(page_1.p,"Invalid page");
-	hwaddr_t hwaddr = (page_1.base<<12)+offset;
-	Assert((hwaddr&0xfff)+len==((hwaddr+len)&0xfff),"Fatal Error");
-	return hwaddr;
+	if(cpu.cr0.paging==1&&cpu.cr0.protect_enable==1) {
+		uint32_t dir = addr >> 22; 
+		uint32_t page = (addr>>12)&0x3ff;
+		uint32_t offset = addr&0xfff;
+		Page_entry dir_1,page_1;
+		dir_1.val = hwaddr_read((cpu.cr3.page_directory_base<<12)+(dir<<2),4);
+		Assert(dir_1.p,"Invalid page");
+		page_1.val = hwaddr_read((dir_1.base<<12)+(page<<2),4);
+		Assert(page_1.p,"Invalid page");
+		hwaddr_t hwaddr = (page_1.base<<12)+offset;
+		Assert((hwaddr&0xfff)+len==((hwaddr+len)&0xfff),"Fatal Error");
+		return hwaddr;
+	}
+	else {
+		return addr;
+	}
 }
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
