@@ -32,8 +32,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	asm volatile("jmp *%0" : : "r"(init_cond));
-
+	//asm volatile("jmp *%0" : : "r"(init_cond));
+	init_cond();
 	panic("should not reach here");
 }
 
@@ -95,7 +95,7 @@ void init_cond() {
 #ifdef IA32_PAGE
 	/* Set the %esp for user program, which is one of the
 	 * convention of the "advanced" runtime environment. */
-	//asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
+	asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
 #endif
 
 	/* Keep the `bt' command happy. */
