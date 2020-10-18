@@ -61,7 +61,7 @@ void init_cond() {
 	/* Enable interrupts. */
 	sti();
 #endif
-	set_bp();
+	
 #ifdef IA32_PAGE
 	/* Initialize the memory manager. */
 	init_mm();
@@ -77,7 +77,7 @@ void init_cond() {
 	/* Write some test data to the video memory. */
 	video_mapping_write_test();
 #endif
-
+	set_bp();
 	/* Load the program. */
 	uint32_t eip = loader();
 	
