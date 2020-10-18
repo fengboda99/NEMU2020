@@ -31,8 +31,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	//asm volatile("jmp *%0" : : "r"(init_cond));
-	init_cond();
+	asm volatile("jmp *%0" : : "r"(init_cond));
+
 	panic("should not reach here");
 }
 
@@ -61,7 +61,7 @@ void init_cond() {
 	/* Enable interrupts. */
 	sti();
 #endif
-	
+
 #ifdef IA32_PAGE
 	/* Initialize the memory manager. */
 	init_mm();
@@ -77,10 +77,10 @@ void init_cond() {
 	/* Write some test data to the video memory. */
 	video_mapping_write_test();
 #endif
-	
+
 	/* Load the program. */
 	uint32_t eip = loader();
-	set_bp();
+	
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
 	 * the test data is written sucessfully.

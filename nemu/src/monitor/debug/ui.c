@@ -58,6 +58,8 @@ static int cmd_d(char *args);
 
 static int cmd_bt(char *args);
 
+static int cmd_page(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -73,6 +75,7 @@ static struct {
 	{ "w", "watchpoint", cmd_w},
 	{ "d", "delete watchpoint", cmd_d},
 	{ "bt", "delete watchpoint", cmd_bt},
+	{ "page", "convert va to pa", cmd_page},
 	 /* TODO: Add more commands */
 
 };
@@ -202,6 +205,18 @@ static int cmd_bt(char *args) {
 		addr = s.prev_ebp;
 		printf("\n");
 	}
+	return 0;
+}
+
+static int cmd_page(char *args) {
+	if(args == NULL) return 0;
+	lnaddr_t lnaddr;
+	sscanf(args,"%x",&lnaddr);
+	hwaddr_t hwaddr = page_translate(lnaddr,1);
+	if(cpu.cr0.protect_enable && cpu.cr0.paging) {
+		printf("0x%x -> 0x%x",lnaddr,hwaddr);	
+	}
+	else printf("\033[1;33mPage address convertion is invalid.\n\033[0m");
 	return 0;
 }
 
