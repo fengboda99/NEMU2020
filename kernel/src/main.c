@@ -15,7 +15,7 @@ void video_mapping_read_test();
 void video_mapping_clear();
 
 void init_cond();
-
+volatile int x=0;
 /* Initialization phase 1
  * The assembly code in start.S will finally jump here.
  */
@@ -24,6 +24,7 @@ void init() {
 	/* We must set up kernel virtual memory first because our kernel thinks it 
 	 * is located at 0xc0100000, which is set by the linking options in Makefile.
 	 * Before setting up correct paging, no global variable can be used. */
+	x=1;	
 	init_page();
 
 	/* After paging is enabled, transform %esp to virtual address. */
