@@ -19,6 +19,7 @@ static void do_execute() {
 	else cpu.OF = 0;
 	cpu.CF = (unsigned int)d2< (unsigned int)d1;	
 	OPERAND_W(op_dest,ans);
+	print_asm_template2();
 }
 make_instr_helper(i2a);
 #if DATA_BYTE == 2 || DATA_BYTE==4
