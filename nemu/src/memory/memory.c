@@ -25,7 +25,7 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 		page_1.val = hwaddr_read((dir_1.base<<12)+(page<<2),4);
 		Assert(page_1.p,"Invalid page");
 		hwaddr_t hwaddr = (page_1.base<<12)+offset;
-		Assert((hwaddr&0xfff)+len==((hwaddr+len)&0xfff),"Fatal Error");
+		//Assert((hwaddr&0xfff)+len==((hwaddr+len)&0xfff),"Fatal Error");
 		return hwaddr;
 	}
 	else {
