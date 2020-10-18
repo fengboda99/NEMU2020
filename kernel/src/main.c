@@ -32,7 +32,7 @@ void init() {
 
 	/* Jump to init_cond() to continue initialization. */
 	//asm volatile("jmp *%0" : : "r"(init_cond));
-	init_cond();
+
 	panic("should not reach here");
 }
 
@@ -77,7 +77,7 @@ void init_cond() {
 	/* Write some test data to the video memory. */
 	video_mapping_write_test();
 #endif
-	
+	set_bp();
 	/* Load the program. */
 	uint32_t eip = loader();
 	
@@ -100,7 +100,7 @@ void init_cond() {
 	/* Keep the `bt' command happy. */
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");
-	set_bp();
+	
 	/* Here we go! */
 	((void(*)(void))eip)();
 
