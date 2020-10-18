@@ -31,8 +31,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	asm volatile("jmp *%0" : : "r"(init_cond));
-
+	//asm volatile("jmp *%0" : : "r"(init_cond));
+	init_cond();
 	panic("should not reach here");
 }
 
@@ -47,7 +47,7 @@ void init_cond() {
 	 */
 	init_idt();
 #endif
-	
+	set_bp();
 #ifdef HAS_DEVICE
 	/* Initialize the intel 8259 PIC (Programmable interrupt controller). */
 	init_i8259();
@@ -100,7 +100,7 @@ void init_cond() {
 	/* Keep the `bt' command happy. */
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");
-	set_bp();
+	//set_bp();
 	/* Here we go! */
 	((void(*)(void))eip)();
 
