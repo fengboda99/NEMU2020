@@ -10,8 +10,8 @@ static void do_execute() {
 	else {
 		cpu.gdtr.seg_limit = lnaddr_read(op_src->addr,2);
 		cpu.gdtr.base_addr = lnaddr_read(op_src->addr+2,4);
-		printf("%x\n",cpu.gdtr.seg_limit);
-		printf("%x\n",cpu.gdtr.base_addr);
+		//printf("%x\n",cpu.gdtr.seg_limit);
+		//printf("%x\n",cpu.gdtr.base_addr);
 	}
 	print_asm_template1();
 }
