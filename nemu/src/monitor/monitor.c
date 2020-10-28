@@ -11,6 +11,7 @@ void init_regex();
 void init_wp_pool();
 void init_ddr3();
 void cache_init();
+void tlb_init();
 FILE *log_fp = NULL;
 
 static void init_log() {
@@ -92,6 +93,7 @@ void restart() {
 	cpu.cs.base_addr = 0;
 	cpu.cs.seg_limit = 0xffffffff;
 	cache_init();
+	tlb_init();
 	/* Initialize DRAM. */
 	init_ddr3();
 }
