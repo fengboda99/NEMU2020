@@ -5,6 +5,7 @@
 #include "data-mov/push.h"
 #include "data-mov/pusha.h"
 #include "data-mov/pop.h"
+#include "data-mov/popa.h"
 #include "data-mov/movext.h"
 #include "data-mov/cltd.h"
 #include "data-mov/leave.h"
@@ -43,6 +44,10 @@
 #include "control-trans/jnb.h"
 #include "control-trans/jp.h"
 #include "control-trans/jnp.h"
+
+#include "intr/int.h"
+#include "intr/cli.h"
+#include "intr/iret.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
