@@ -6,7 +6,7 @@ void raise_intr(uint8_t NO) {
 
 	/*TODO: Trigger an interrupt
 	 */
-	printf("%d\n",NO);
+	printf("\n%d\n",NO);
 	/* Jump back to cpu_exec() */
 	longjmp(jbuf,1);
 }
