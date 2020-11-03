@@ -8,6 +8,7 @@
 #include "data-mov/cltd.h"
 #include "data-mov/leave.h"
 #include "data-mov/lgdt.h"
+#include "data-mov/lidt.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
