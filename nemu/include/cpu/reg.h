@@ -139,6 +139,24 @@ typedef union {
 	uint32_t val;
 } Page_entry;
 
+typedef struct {
+	union {
+		struct {
+			uint32_t offset1          : 16;
+			uint32_t selector         : 16;
+			uint32_t pad0             : 8;
+			uint32_t type             : 4;
+			uint32_t system           : 1;
+			uint32_t privilege_level  : 2;
+			uint32_t present          : 1;
+			uint32_t offset2     	  : 16;
+		};
+		struct {
+		uint32_t first;
+		uint32_t second;
+		};
+	};
+}GATE_descriptor;
 
 extern CPU_state cpu;
 SEG_descriptor* seg_des;
