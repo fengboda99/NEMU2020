@@ -22,11 +22,11 @@ make_helper(concat(pusha_1_,SUFFIX)) {
 		int i;
 		for(i=R_EAX;i<=R_EDI;i++) {
 			if(i==R_ESP) {
-				REG(R_ESP)-=2;
+				REG(R_ESP)-=4;
 				MEM_W(REG(R_SP),tmp,R_SS);			
 			}		
 			else {
-				REG(R_ESP)-=2;
+				REG(R_ESP)-=4;
 				MEM_W(REG(R_ESP),REG(i),R_SS);		
 			}
 		}
