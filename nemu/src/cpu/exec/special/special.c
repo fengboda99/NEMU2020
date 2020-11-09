@@ -39,7 +39,7 @@ make_helper(nemu_trap) {
 					(cpu.eax == 0 ? "GOOD" : "BAD"), cpu.eip);
 			nemu_state = END;
 	}
-
+	
 	return 1;
 }
 
