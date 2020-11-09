@@ -16,7 +16,7 @@ make_helper(iret) {
 		cpu.eip=pop();
 		cpu.cs.selector = pop();
 		cpu.eflags = pop();
-		printf("13\n");
+		//printf("13\n");
 		seg_do(R_CS);
 	}	
 	
