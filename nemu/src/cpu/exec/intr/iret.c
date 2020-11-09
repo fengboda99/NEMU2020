@@ -12,6 +12,7 @@ make_helper(iret) {
 		cpu.eflags = pop();	
 	}
 	else {
+		printf("1\n");
 		cpu.eip=pop();
 		cpu.cs.selector = pop();
 		cpu.eflags = pop();
