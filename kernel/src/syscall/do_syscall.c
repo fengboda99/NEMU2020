@@ -18,6 +18,7 @@ static void sys_write(TrapFrame *tf) {
 	if(fd==1||fd==2) {
 		ans = tf->edx;
 		asm volatile (".byte 0xd6" :: "a"(2), "c"(buf), "d"(len));
+		set_bp();
 	}
 	tf->eax = ans;
 }
