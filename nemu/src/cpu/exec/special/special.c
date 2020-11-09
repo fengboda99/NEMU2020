@@ -29,6 +29,7 @@ make_helper(nemu_trap) {
 
 	switch(cpu.eax) {
 		case 2: {
+			printf("11");
 			int i;
  			for (i = 0;i < cpu.edx;i++)
  			putchar(swaddr_read(cpu.ecx + i,1,R_DS));
