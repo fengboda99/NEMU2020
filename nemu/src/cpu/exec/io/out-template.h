@@ -3,13 +3,11 @@
 #define instr out
 uint32_t pio_write(ioaddr_t, size_t,  uint32_t);
 
-static void do_execute() {
-	pio_write(op_dest -> addr, DATA_BYTE, op_src -> val);
-	print_asm("out");
+make_helper(concat(out_1_,SUFFIX)) {
+	print_asm("out    %%al,(%%dx)");
+	pio_write(REG(R_EDX), DATA_BYTE, REG(R_EAX));
+	return 1;
 }
-
-make_instr_helper(i2a)
-make_instr_helper(r2rm)
 
 
 
