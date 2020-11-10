@@ -66,7 +66,7 @@ void init_cond() {
 	/* Initialize the memory manager. */
 	init_mm();
 #endif
-
+	set_bp();
 	/* Output a welcome message.
 	 * Note that the output is actually performed only when
 	 * the serial port is available in NEMU.
