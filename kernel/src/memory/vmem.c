@@ -7,7 +7,7 @@
 
 /* Use the function to get the start address of user page directory. */
 PDE* get_updir();
-
+static PTE vtable[1024] align_to_page;
 
 void create_video_mapping() {
 	/* TODO: create an identical mapping from virtual memory area 
@@ -16,17 +16,15 @@ void create_video_mapping() {
 	 * some page tables to create this mapping.
 	 */
 	//panic("please implement me");
-	int pages = SCR_SIZE / PAGE_SIZE + !!(SCR_SIZE % PAGE_SIZE);
-	
-	extern void create_user_mapping(int uptable_id, unsigned physaddr, unsigned virtaddr);
-	
-	printk("create video mapping for user address space ...\n");
-	unsigned addr = 0xa0000;
+	PDE* tmp = (PDE*)va_to_pa(get_updir());
+	tmp[0].page_frame = (uint32_t)va_to_pa(vtable)>>12;
+	tmp[0].present = 1;
 	int i;
-	for (i = 0; i < pages; i++) {
-	    create_user_mapping(0, addr, addr);
-	    addr += PAGE_SIZE;
+	for(i=VMEM_ADDR/PAGE_SIZE;i<(VMEM_ADDR+SCR_SIZE)/PAGE_SIZE;i++) {
+		vtable[i].page_frame = i;
+		vtable[i].present = 1;
 	}
+
 }
 
 void video_mapping_write_test() {
