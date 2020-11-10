@@ -6,6 +6,9 @@
 
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
+int is_mmio(hwaddr_t);
+uint32_t mmio_read(hwaddr_t, size_t, int);
+void mmio_write(hwaddr_t, size_t, uint32_t, int);
 
 /* Memory accessing interfaces */
 
@@ -38,6 +41,10 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 }
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+	int index = is_mmio(addr);
+	if (index !=-1) {
+		return mmio_read(addr,len,index);	
+	}
 	int id = cache_read(addr);
 	uint32_t offset = addr&(CACHE_BLOCK_SIZE-1);
 	uint8_t tmp[2*BURST_LEN];
@@ -55,6 +62,11 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+	int index = is_mmio(addr);
+	if (index !=-1) {
+		mmio_write(addr,len,data,index);
+		return ;
+	}
 	cache_write(addr, len, data);
 }
 
