@@ -42,7 +42,7 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int index = is_mmio(addr);
-	if (index !=-1) {
+	if (index >=0) {
 		return mmio_read(addr,len,index);	
 	}
 	int id = cache_read(addr);
@@ -63,7 +63,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int index = is_mmio(addr);
-	if (index !=-1) {
+	if (index >=0) {
 		mmio_write(addr,len,data,index);
 		return ;
 	}
