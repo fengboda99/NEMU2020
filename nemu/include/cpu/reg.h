@@ -73,7 +73,8 @@ typedef struct {
 			};
 		};
 	};
-
+	bool INTR;	
+	
 	CR0 cr0;
 	CR3 cr3;
 	union {
