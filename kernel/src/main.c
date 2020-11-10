@@ -75,7 +75,7 @@ void init_cond() {
 
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Write some test data to the video memory. */
-	//video_mapping_write_test();
+	video_mapping_write_test();
 #endif
 
 	/* Load the program. */
@@ -85,10 +85,10 @@ void init_cond() {
 	/* Read data in the video memory to check whether 
 	 * the test data is written sucessfully.
 	 */
-	//video_mapping_read_test();
+	video_mapping_read_test();
 
 	/* Clear the test data we just written in the video memory. */
-	//video_mapping_clear();
+	video_mapping_clear();
 #endif
 	//set_bp();
 #ifdef IA32_PAGE
@@ -96,7 +96,7 @@ void init_cond() {
 	 * convention of the "advanced" runtime environment. */
 	asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
 #endif
-	set_bp();
+	
 	/* Keep the `bt' command happy. */
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");

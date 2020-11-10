@@ -1,19 +1,18 @@
 #include "cpu/exec/helper.h"
-#include "device/port-io.h"
 
+#define DATA_BYTE 1
+#include "in-template.h"
+#undef DATA_BYTE
 
-make_helper(inb) {
-	print_asm("in    %%al,(%%dx)");
-	reg_b(R_EAX) = (uint8_t)pio_read(reg_w(R_DX), 1);
-	return 1;
-	
-}
+#define DATA_BYTE 2
+#include "in-template.h"
+#undef DATA_BYTE
 
-make_helper(inl) {
-	assert(ops_decoded.is_operand_size_16 == 0);
-	print_asm("in    %%eax,(%%dx)");
-	cpu.eax = pio_read(reg_w(R_DX), 4);
-	return 1;
-	
-}
+#define DATA_BYTE 4
+#include "in-template.h"
+#undef DATA_BYTE
 
+/* for instruction encoding overloading */
+
+make_helper_v(in_i2a)
+make_helper_v(in_r2rm)
