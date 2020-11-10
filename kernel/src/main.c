@@ -25,7 +25,7 @@ void init() {
 	 * is located at 0xc0100000, which is set by the linking options in Makefile.
 	 * Before setting up correct paging, no global variable can be used. */
 	init_page();
-	//set_bp();
+	set_bp();
 	/* After paging is enabled, transform %esp to virtual address. */
 	asm volatile("addl %0, %%esp" : : "i"(KOFFSET));
 #endif
@@ -80,7 +80,7 @@ void init_cond() {
 
 	/* Load the program. */
 	uint32_t eip = loader();
-	set_bp();
+	//set_bp();
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
 	 * the test data is written sucessfully.
