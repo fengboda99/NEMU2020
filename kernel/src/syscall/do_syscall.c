@@ -13,7 +13,7 @@ static void sys_brk(TrapFrame *tf) {
 static void sys_write(TrapFrame *tf) {
 	uint32_t fd = tf->ebx;
 	char* buf = (char*)tf->ecx;
-	uint32_t len = tf->edx;
+	int32_t len = tf->edx;
 	uint32_t ans = 0;
 	if(fd==1||fd==2) {
 		//set_bp();
