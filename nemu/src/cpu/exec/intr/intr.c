@@ -26,7 +26,7 @@ void raise_intr(uint8_t NO) {
 	seg_do(R_CS);
 	//printf("1\n");
 	cpu.eip=cpu.cs.base_addr+gate.offset1+(gate.offset2<<16);
-	printf("1\n");
+	//printf("1\n");
 	/* Jump back to cpu_exec() */
 	longjmp(jbuf,1);
 }
