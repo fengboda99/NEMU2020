@@ -66,13 +66,13 @@ void init_cond() {
 	/* Initialize the memory manager. */
 	init_mm();
 #endif
-	set_bp();
+	//set_bp();
 	/* Output a welcome message.
 	 * Note that the output is actually performed only when
 	 * the serial port is available in NEMU.
 	 */
 	Log("Hello, NEMU world!");
-	set_bp();
+	//set_bp();
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Write some test data to the video memory. */
 	video_mapping_write_test();
@@ -80,7 +80,7 @@ void init_cond() {
 
 	/* Load the program. */
 	uint32_t eip = loader();
-	set_bp();
+	//set_bp();
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
 	 * the test data is written sucessfully.
