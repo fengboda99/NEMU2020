@@ -5,7 +5,7 @@
 void add_irq_handle(int, void (*)(void));
 uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
-int fs_write(int, void *, size_t); 
+//int fs_write(int, void *, size_t); 
 void serial_printc(char);
 static void sys_brk(TrapFrame *tf) {
 	tf->eax = mm_brk(tf->ebx);
@@ -24,7 +24,8 @@ static void sys_write(TrapFrame *tf) {
 		//set_bp();
 	}
 	else {
-		ans = fs_write(fd, buf, len);
+		//ans = fs_write(fd, buf, len);
+		ans = 210;
 	}
 	tf->eax = ans;
 }
