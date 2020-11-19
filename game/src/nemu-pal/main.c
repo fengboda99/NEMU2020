@@ -526,10 +526,11 @@ main_loop() {
 #endif
 
 #ifdef __WINPHONE__
+   set_bp();
    SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight");
    SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
 #endif
-   set_bp();
+
    UTIL_OpenLog();
 
 #ifdef _WIN32
