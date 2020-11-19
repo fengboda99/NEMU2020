@@ -20,8 +20,8 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg) {
 
 hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 	if(cpu.cr0.paging==1&&cpu.cr0.protect_enable==1) {
-		//hwaddr_t ans = tlb_read(addr&0xfffff000);
-		//if(ans!=-1) return (ans<<12) + (addr&0xfff);
+		hwaddr_t ans = tlb_read(addr&0xfffff000);
+		if(ans!=-1) return (ans<<12) + (addr&0xfff);
 		uint32_t dir = addr >> 22; 
 		uint32_t page = (addr>>12)&0x3ff;
 		uint32_t offset = addr&0xfff;
@@ -31,7 +31,7 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 		page_1.val = hwaddr_read((dir_1.base<<12)+(page<<2),4);
 		Assert(page_1.p,"page do not exist at %x", cpu.eip);
 		hwaddr_t hwaddr = (page_1.base<<12)+offset;
-		//tlb_write(addr&0xfffff000,page_1.base);
+		tlb_write(addr&0xfffff000,page_1.base);
 		//Assert((hwaddr&0xfff)+len==((hwaddr+len)&0xfff),"Fatal Error");
 		return hwaddr;
 	}
