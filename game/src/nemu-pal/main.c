@@ -582,6 +582,7 @@ main_loop() {
    //
    // Run the main game routine
    //
+   set_bp();
    PAL_GameMain();
 
    //
