@@ -6,7 +6,7 @@ make_helper(concat(movs_1_,SUFFIX)) {
 	if(DATA_BYTE==2)
 	{
 		uint16_t ok= swaddr_read(reg_l(R_SI),2,R_DS);
-		swaddr_write(reg_w(R_DI),2,ok,R_ES);
+		swaddr_write(reg_l(R_DI),2,ok,R_ES);
 		if(cpu.DF==0)
 		{
 			reg_w(R_DI)+=DATA_BYTE;

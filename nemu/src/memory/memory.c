@@ -30,8 +30,7 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 		Assert(dir_1.p,"pagevalue = %x eip = %x", dir_1.val,cpu.eip);
 		page_1.val = hwaddr_read((dir_1.base<<12)+(page<<2),4);
 		if(!page_1.p) {
-			printf("\n%x\n",addr);
-				
+			printf("\n%x\n",addr);	
 		}
 		Assert(page_1.p,"page do not exist at %x", cpu.eip);
 		hwaddr_t hwaddr = (page_1.base<<12)+offset;
