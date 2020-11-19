@@ -11,6 +11,7 @@
 #include "data-mov/leave.h"
 #include "data-mov/lgdt.h"
 #include "data-mov/lidt.h"
+#include "data-mov/cmovcc.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
