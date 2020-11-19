@@ -20,7 +20,6 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg) {
 
 hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 	if(cpu.cr0.paging==1&&cpu.cr0.protect_enable==1) {
-		//if(addr)
 		//hwaddr_t ans = tlb_read(addr&0xfffff000);
 		//if(ans!=-1) return (ans<<12) + (addr&0xfff);
 		uint32_t dir = addr >> 22; 
@@ -47,7 +46,7 @@ hwaddr_t page_translate(lnaddr_t addr,size_t len) {
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int index = is_mmio(addr);
 	if (index >=0) {
-		return mmio_read(addr,len,index);	
+		return mmio_read(addr,len,index)&(~0u >> ((4 - len) << 3));	
 	}
 	/*int id = cache_read(addr);
 	uint32_t offset = addr&(CACHE_BLOCK_SIZE-1);
