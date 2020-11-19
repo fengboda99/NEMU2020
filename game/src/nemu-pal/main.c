@@ -515,7 +515,7 @@ main_loop() {
 
 #if defined(__APPLE__) && !defined(__IOS__)
    char *p = strstr(argv[0], "/Pal.app/");
-   set_bp();
+
    if (p != NULL)
    {
       char buf[4096];
@@ -524,9 +524,8 @@ main_loop() {
       chdir(buf);
    }
 #endif
-   set_bp();
-#ifdef __WINPHONE__
 
+#ifdef __WINPHONE__
    SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight");
    SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
 #endif
