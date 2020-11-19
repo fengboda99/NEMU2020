@@ -180,7 +180,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x40 */	inv, inv, inv, inv, 
 /* 0x44 */	cmove_v, inv, inv, inv,
 /* 0x48 */	inv, inv, inv, inv, 
-/* 0x4c */	inv, inv, inv, inv, 
+/* 0x4c */	inv, inv, cmovle_v, inv, 
 /* 0x50 */	inv, inv, inv, inv, 
 /* 0x54 */	inv, inv, inv, inv,
 /* 0x58 */	inv, inv, inv, inv, 
