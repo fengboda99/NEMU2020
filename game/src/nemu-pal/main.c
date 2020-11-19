@@ -529,7 +529,7 @@ main_loop() {
    SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight");
    SDL_SetHint(SDL_HINT_WINRT_HANDLE_BACK_BUTTON, "1");
 #endif
-
+   set_bp();
    UTIL_OpenLog();
 
 #ifdef _WIN32
@@ -582,7 +582,6 @@ main_loop() {
    //
    // Run the main game routine
    //
-   set_bp();
    PAL_GameMain();
 
    //
