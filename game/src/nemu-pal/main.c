@@ -510,7 +510,7 @@ PAL_SplashScreen(
 
 void
 main_loop() {
-   set_bp();
+   LOG("good");
    WORD          wScreenWidth = 0, wScreenHeight = 0;
    BOOL          fFullScreen = FALSE;
    
