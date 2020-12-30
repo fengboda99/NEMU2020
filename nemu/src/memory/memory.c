@@ -48,7 +48,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	if (index >=0) {
 		return mmio_read(addr,len,index)&(~0u >> ((4 - len) << 3));	
 	}
-	/*int id = cache_read(addr);
+	int id = cache_read(addr);
 	uint32_t offset = addr&(CACHE_BLOCK_SIZE-1);
 	uint8_t tmp[2*BURST_LEN];
 	if(offset+len>CACHE_BLOCK_SIZE) {
@@ -61,8 +61,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	}
 	int zero=0;
 	uint32_t ans = unalign_rw(tmp+zero,4)&(~0u >> ((4 - len) << 3));
-	return ans;*/
-	return dram_read(addr,len)&(~0u >> ((4 - len) << 3));
+	return ans;
+	//return dram_read(addr,len)&(~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
@@ -71,8 +71,8 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 		mmio_write(addr,len,data,index);
 		return ;
 	}
-	//cache_write(addr, len, data);
-	dram_write(addr, len, data);
+	cache_write(addr, len, data);
+	//dram_write(addr, len, data);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
