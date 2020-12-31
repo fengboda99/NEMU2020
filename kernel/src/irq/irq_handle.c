@@ -34,18 +34,17 @@ void irq_handle(TrapFrame *tf) {
 	 * following line after you are done.
 	 */
 	//panic("Have you re-organized the `TrapFrame' structure?");
-	//set_bp();
-	int irq = tf->irq;
 
+	int irq = tf->irq;
+//	set_bp();
 	if (irq < 0) {
-		panic("Unhandled exception!");
+		panic("Unhandled exception! #%d at eip = %x", irq, tf->eip);
 	} else if (irq == 0x80) {
-		//set_bp();
+	//	set_bp();
 		do_syscall(tf);
 	} else if (irq < 1000) {
 		panic("Unexpected exception #%d at eip = %x", irq, tf->eip);
 	} else if (irq >= 1000) {
-		//set_bp();
 		int irq_id = irq - 1000;
 		assert(irq_id < NR_HARD_INTR);
 		struct IRQ_t *f = handles[irq_id];

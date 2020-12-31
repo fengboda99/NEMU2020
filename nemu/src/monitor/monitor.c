@@ -1,4 +1,6 @@
 #include "nemu.h"
+#include "memory/cache.h"
+#include "memory/tlb.h"
 
 #define ENTRY_START 0x100000
 
@@ -10,10 +12,9 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_pool();
 void init_ddr3();
-void cache_init();
-void tlb_init();
 void init_device();
 void init_sdl();
+
 FILE *log_fp = NULL;
 
 static void init_log() {
@@ -41,12 +42,13 @@ void init_monitor(int argc, char *argv[]) {
 	/* Initialize the watchpoint pool. */
 	init_wp_pool();
 
+#ifdef HAS_DEVICE
+	init_device();
+	init_sdl();
+#endif
+
 	/* Display welcome message. */
 	welcome();
-
-	init_device();
-
-	init_sdl();
 }
 
 #ifdef USE_RAMDISK
@@ -93,13 +95,20 @@ void restart() {
 
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
-	cpu.eflags = 2;
-	cpu.cr0.protect_enable=0;
-	cpu.cr0.paging=0;
-	cpu.cs.base_addr = 0;
-	cpu.cs.seg_limit = 0xffffffff;
-	cache_init();
-	tlb_init();
+	cpu.CF = 1;
+	cpu.PF = cpu.ZF = cpu.SF = cpu.IF = cpu.DF = cpu.OF = 0;
+	cpu.cr0.val = cpu.cr3.val = 0;
+
+	cpu.cs.cache.base = 0;
+	cpu.cs.cache.limit = 0xffffffff;
+
+//	cpu.cr3.page_directory_base = 0x137;
+//	cpu.PE = 1;
+
 	/* Initialize DRAM. */
 	init_ddr3();
+
+	/* Initialize Cache. */
+	resetCache();
+	resetTLB();
 }

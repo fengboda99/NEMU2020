@@ -5,6 +5,7 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
+static int ID = 0;
 
 void init_wp_pool() {
 	int i;
@@ -18,80 +19,68 @@ void init_wp_pool() {
 	free_ = wp_pool;
 }
 
-/* TODO: Implement the functionality of watchpoint */
-
 WP* new_wp() {
-	if(free_==NULL) assert(0);
-	WP* tmp  = free_;
-	free_ = free_ -> next;
-	tmp->val=0;
-	tmp->str[0]='\0';
-	tmp->next = head;
-	head = tmp;
-
-	return tmp;
+	assert(free_ != NULL);
+	WP* ans = free_;
+	free_ = ans->next;
+	ans->next = NULL;
+	return ans;
 }
 
-void free_wp(WP* wp) {
-	WP* tmp = head;
-	bool f= false;
-	if(tmp==NULL) assert(0);
-	while(tmp!=NULL) {
-		if(tmp==wp) {	
-			head = head->next;
-			f= true;
-			break;
-		}
-		if((tmp->next)==wp) {
-			tmp->next = wp->next;
-			f = true;
-			break;
-		}
-		else tmp = tmp->next;
-	}
-	if(!f) assert(0);
+void wp_free(WP *wp) {
 	wp->next = free_;
 	free_ = wp;
 }
 
-void info_wp() {
-	WP* tmp = head;
-	while(tmp!=NULL) {
-		printf("watchpoint %d: %s, the value is %d\n",tmp->NO,tmp->str,tmp->val);
-		tmp = tmp->next;
-	}
+WP* getHead() {
+	return head;
 }
 
-void delete_wp(int num) {
-	WP* tmp = head;
-	bool f = false;
-	if(tmp==NULL) assert(0);
-	while(tmp!=NULL) {
-		if(tmp->NO==num) {
-			free_wp(tmp);	
-			f=true;
-			break;
-		}
-		else tmp = tmp->next;
-	}
-	if(!f) assert(0);
+int insertExpr(char *ex) {
+	bool suc;
+	uint32_t ans = expr(ex, &suc);
+	if(!suc) return -1;
+	WP* nd = new_wp();
+	nd->NO = ++ID;
+	nd->ans = ans;
+	strcpy(nd->expr, ex);
+	nd->next = head;
+	head = nd;
+	return ID;
 }
 
-bool check_wp() {
-	WP* tmp = head;
-	bool f = false;
-	while(tmp!=NULL) {
-		bool suc;
-		int val = expr(tmp->str,&suc);
-		if(val!=tmp->val) {
-			f = true;
-			printf("OLD value is %d\n",tmp->val);
-			printf("NEW value is %d\n",val);
-			printf("watchpoint %d has changed\n",tmp->NO);
-			tmp->val = val;
-		}
-		tmp = tmp->next;	
+int removeNode(int id) {
+	if(head == NULL) return 0;
+	if(head->NO == id){
+		WP* tmp = head;
+		head = head->next;
+		wp_free(tmp);
+		return 1;
 	}
-	return f;
+	WP* now = head;
+	while(now->next != NULL) {
+		if(now->next->NO == id) {
+			WP* tmp = now->next;
+			now->next = now->next->next;
+			wp_free(tmp);
+			return 1;
+		}
+		now = now->next;
+	}
+	return 0;
 }
+
+int checkNode(WP *nd) {
+	if(nd == NULL) return 1;
+	bool suc;
+	uint32_t ans = expr(nd->expr, &suc);
+	if(!suc) return -1;	//fail
+	if(ans == nd->ans) return 1;
+	printf("\033[1;31mIn watchpoint %d, last value is 0x%x, but now is 0x%x\n\033[0m", nd->NO, nd->ans, ans);
+	//print the value of this expression
+	return 0;
+}
+
+/* TODO: Implement the functionality of watchpoint */
+
 

@@ -26,20 +26,20 @@ make_helper(inv) {
 
 make_helper(nemu_trap) {
 	print_asm("nemu trap (eax = %d)", cpu.eax);
-
 	switch(cpu.eax) {
-		case 2: {
-			int i;
- 			for (i = 0;i < cpu.edx;i++)
- 			putchar(swaddr_read(cpu.ecx + i,1,R_DS));
-		   	break;
+		case 2://output
+			{
+				int i = 0;
+				for(i = 0; i < cpu.edx; i++) printf("%d ", (swaddr_read(cpu.ecx + i, 1, R_CS)));
+		   		break;
 			}
+
 		default:
-			printf("\33[1;31mnemu: HIT %s TRAP\33[0m at eip = 0x%08x\n\n",
-					(cpu.eax == 0 ? "GOOD" : "BAD"), cpu.eip);
+			if(cpu.eax == 0) printf("\33[1;32mnemu: HIT GOOD TRAP\33[0m at test 0x%08x\n\n", cpu.eip);
+			else printf("\33[1;31mnemu: HIT BAD TRAP\33[0m at test 0x%08x\n\n", cpu.eip);
 			nemu_state = END;
 	}
-	
+
 	return 1;
 }
 

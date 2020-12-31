@@ -5,21 +5,11 @@
 static void do_execute () {
 	DATA_TYPE result = op_dest->val | op_src->val;
 	OPERAND_W(op_dest, result);
-
+	cpu.CF = cpu.OF = 0;
+	concat(updateCPU_, SUFFIX)(result);
 	/* TODO: Update EFLAGS. */
-	cpu.CF=0;
-	cpu.OF=0;
-	cpu.ZF=!result;
-	int ccc = result;
-	cpu.SF= ccc<0?1:0;
-	int cnt=0;
-	ccc&=0xff;
-	while(ccc)
-	{
-		ccc = ccc&(ccc-1);
-		cnt++;
-	}
-	cpu.PF = cnt%2==0? 1:0;
+	//panic("please implement me");
+
 	print_asm_template2();
 }
 

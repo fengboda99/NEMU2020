@@ -510,10 +510,9 @@ PAL_SplashScreen(
 
 void
 main_loop() {
-   //LOG("good");
    WORD          wScreenWidth = 0, wScreenHeight = 0;
    BOOL          fFullScreen = FALSE;
-   
+
 #if defined(__APPLE__) && !defined(__IOS__)
    char *p = strstr(argv[0], "/Pal.app/");
 

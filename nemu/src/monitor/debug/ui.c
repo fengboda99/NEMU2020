@@ -8,14 +8,9 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
-typedef struct {
-	swaddr_t prev_ebp;
-	swaddr_t ret_addr;
-	uint32_t args[4];
-}PartOfStackFrame;
-
 char* rl_gets() {
 	static char *line_read = NULL;
 
@@ -42,41 +37,187 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_info(char *args){
+	if(args == NULL) return 0;
+	char opt;
+	sscanf(args, " %c", &opt);
+	if(opt == 'r') {
+		printf("%%eax 0x%x\n", cpu.eax);
+		printf("%%ecx 0x%x\n", cpu.ecx);
+		printf("%%edx 0x%x\n", cpu.edx);
+		printf("%%ebx 0x%x\n", cpu.ebx);
+		printf("%%esp 0x%x\n", cpu.esp);
+		printf("%%ebp 0x%x\n", cpu.ebp);
+		printf("%%esi 0x%x\n", cpu.esi);
+		printf("%%edi 0x%x\n", cpu.edi);
+		printf("%%eip 0x%x\n", cpu.eip);
+	} else if(opt == 'w') {
+		WP *h = getHead();
+		while(h != NULL) {
+			printf("watchpoint %d : %s\n", h->NO, h->expr);
+			h = h->next;
+		}
+	} else if(opt == 's') {
+		printf("%%gdtr base:0x%x limit:0x%x\n", cpu.gdtr.base_addr, cpu.gdtr.seg_limit);
+		const char *S[] = {"es", "cs", "ss", "ds", "fs", "gs"};
+		int i;
+		for(i = 0; i < 6; i++) {
+			printf("%%%s 0x%x base: 0x%x limit: 0x%x\n", S[i], cpu.sr[i].index, cpu.sr[i].cache.base, cpu.sr[i].cache.limit);
+		}
+	} else if(opt == 'c') {
+		printf("%%cr0 0x%x\n", cpu.cr0.val);
+		printf("%%cr3 0x%x 0x%x\n", cpu.cr3.val, cpu.cr3.page_directory_base);
+	}
+	return 0;
+}
+
+static int cmd_si(char *args) {
+	if(args == NULL) cpu_exec(1);
+	else cpu_exec(atoi(args));
+	return 0;
+}
+
+static int cmd_x(char *args) {
+	if(args == NULL) return 0;
+	uint32_t num = 0, addr;
+	bool suc;
+	while(args[0] == ' ')++args;	//trim
+	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
+	//get number
+	addr = expr(args, &suc);
+	if(!suc) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
+	}
+	while(num) {
+		printf("address 0x%x:", addr);
+		int i;
+		for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1, R_DS));
+		printf("\n");
+		addr += 4;
+		--num;
+	}
+	return 0;
+}
+
+static int cmd_p(char *args) {
+	if(args == NULL) return 0;
+	bool suc;
+	uint32_t ans = expr(args, &suc);	//fix bugs
+	if(!suc) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
+	}
+	//tokens;
+	printf("Expression %s : 0x%x\n", args, ans);
+	return 0;
+}
+
+static int cmd_w(char *args) {
+	if(args == NULL) return 0;
+	int id = insertExpr(args);
+	if(id == -1) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
+	}
+	printf("Add watchpoint %d\n", id);
+	return 0;
+}
+
+static int cmd_d(char *args) {
+	if(args == NULL) return 0;
+	int id;
+	sscanf(args, "%d", &id);
+	int ans = removeNode(id);//remove a node
+	if(ans == 0) {
+		printf("\033[1;31mWatchpoint %d doesn't exist\n\033[0m", id);
+	} else {
+		printf("Delete watchpoint %d successfully\n", id);
+	}
+	return 0;
+}
+
+static int cmd_goto(char *args) {
+	if(args == NULL) return 0;
+	bool suc;
+	uint32_t ans = expr(args, &suc);
+	if(!suc) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
+	}
+	cpu.eip = ans;
+	printf("Goto address 0x%x successfully\n", ans);
+	return 0;
+}
+
+void getFunctionFromAddress(swaddr_t addr, char *s);
+
+static int cmd_bt(char *args) {
+	swaddr_t now_ebp = reg_l(R_EBP);
+	swaddr_t now_ret = cpu.eip;
+	int cnt = 0, i;
+	char name[50];
+	while(now_ebp) {
+		getFunctionFromAddress(now_ret, name);
+		if(name[0] == '\0') break;
+		printf("#%d 0x%x: ", ++cnt, now_ret);
+		printf("%s (", name);
+		for(i = 0; i < 4; i++) {
+			printf("%d", swaddr_read(now_ebp + 8 + i * 4, 4, R_SS));
+			printf("%c", i == 3 ? ')' : ',');
+		}
+		now_ret = swaddr_read(now_ebp + 4, 4, R_SS);
+		now_ebp = swaddr_read(now_ebp, 4, R_SS);
+		printf("\n");
+	}
+	return 0;
+}
+
+static int cmd_page(char *args) {
+	if(args == NULL) return 0;
+	lnaddr_t lnaddr;
+	sscanf(args, "%x", &lnaddr);
+	hwaddr_t hwaddr = page_translate(lnaddr, 1);
+	if(!cpu.cr0.protect_enable || !cpu.cr0.paging) {
+		printf("\033[1;33mPage address convertion is invalid.\n\033[0m");
+	}
+	printf("0x%x -> 0x%x\n", lnaddr, hwaddr);
+	return 0;
+}
+
+static int cmd_seg(char *args) {
+	if(args == NULL) return 0;
+	swaddr_t swaddr;
+	sscanf(args, "%x", &swaddr);
+	lnaddr_t lnaddr = seg_translate(swaddr, 1, R_CS);
+	if(!cpu.cr0.protect_enable) {
+		printf("\033[1;33mSegment address convertion is invalid.\n\033[0m");
+	}
+	printf("0x%x -> 0x%x\n", swaddr, lnaddr);
+	return 0;
+}
+
 static int cmd_help(char *args);
-
-static int cmd_si(char *args);
-
-static int cmd_info(char *args);
-
-static int cmd_x(char *args);
-
-static int cmd_p(char *args);
-
-static int cmd_w(char *args);
-
-static int cmd_d(char *args);
-
-static int cmd_bt(char *args);
-
-static int cmd_page(char *args);
 
 static struct {
 	char *name;
 	char *description;
-	int (*handler) (char *);
+	int (*handler) (char *);	//A pointer (Function)
 } cmd_table [] = {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "just only", cmd_si },
-	{ "info", "information", cmd_info},
-	{ "x", "memory", cmd_x},
-	{ "p", "expression", cmd_p},
-	{ "w", "watchpoint", cmd_w},
-	{ "d", "delete watchpoint", cmd_d},
-	{ "bt", "delete watchpoint", cmd_bt},
-	{ "page", "convert va to pa", cmd_page},
-	 /* TODO: Add more commands */
+	{ "si", "Continue the execution of the program in N steps", cmd_si },
+	{ "info", "Print all registers", cmd_info },
+	{ "x", "Scan the memory", cmd_x },
+	{ "p", "Calculate the value of expression", cmd_p },
+	{ "w", "Add a watchpoint", cmd_w },
+	{ "d", "Delete a watchpoint", cmd_d },
+	{ "goto", "Goto address", cmd_goto },
+	{ "bt", "Print backtrace", cmd_bt },
+	{ "page", "Convert virtual address to physical address", cmd_page },
+	{ "seg", "Convert logic address to linear addresss", cmd_seg}
+	/* TODO: Add more commands */
 
 };
 
@@ -105,121 +246,6 @@ static int cmd_help(char *args) {
 	return 0;
 }
 
-static int cmd_si(char *args) {
-	/**/
-	if(args == NULL)
-	{
-		cpu_exec(1);
-	}
-	else{
-		int num;
-		sscanf(args,"%d",&num);
-		cpu_exec(num);
-	}
-	return 0;
-}
-
-static int cmd_info(char *args) {
-	printf("123\n");
-	if(strcmp(args,"r") == 0) {
-		int i;
-		for( i=0;i<8;i++) {
-			printf("the %s reg is 0x%08x\n",regsl[i],reg_l(i));	
-		}
-	}
-	else if(strcmp(args,"w")==0) {
-		info_wp();
-	}
-	return 0;
-}
-
-static int cmd_x(char *args) {
-	int num;
-	uint32_t addr;
-	bool ok;
-	if(args==NULL) assert(0);
-	char str[64];
-	sscanf(args,"%d %s",&num,str);
-	int i;
-	addr = expr(str,&ok);
-	if(!ok) assert(0);
-	for(i=0;i<num;i++) {
-		printf("0x%08x\n",swaddr_read(addr,4,R_DS));
-		addr+=4;
-	}
-	printf("\n");
-	return 0;
-}
-
-static int cmd_p(char *args) {
-	bool op;
-	int ans = expr(args,&op);
-	if(op)
-		printf("0x%08x is %d\n",ans,ans);
-	else assert (0);
-	return 0;
-}
-
-static int cmd_w(char *args) {
-	WP *wp = new_wp();
-	bool suc;
-	printf("watchpoint %d: %s\n",wp->NO,args);
-	wp->val = expr(args,&suc);
-	if(!suc) assert(0);
-	strcpy(wp->str,args);
-	printf("the val is %d\n",wp->val);		
-	return 0;	
-}
-
-static int cmd_d(char *args) {
-	int num;
-	sscanf(args,"%d",&num);
-	delete_wp(num);	
-	return 0;
-}
-
-void getfunc(swaddr_t addr,char* s);
-
-static int cmd_bt(char *args) {
-	//printf("123\n");
-	PartOfStackFrame s;
-	swaddr_t addr = reg_l(R_EBP);
-	//printf("%x\n",addr);
-	s.ret_addr = cpu.eip;
-	char ss[32];
-	int cnt=0;
-	while(addr) {
-		getfunc(s.ret_addr,ss);
-		//printf("%s\n",ss);	
-		if(ss[0]=='\0') break;
-		printf("id:%d 0x%x: ",cnt++,s.ret_addr);
-		printf("%s (",ss);
-		int i;
-		for(i=0;i<4;i++) {
-			s.args[i] = swaddr_read(addr+8+4*i,4,R_SS);
-			printf("%d",s.args[i]);
-			printf("%c",i==3?')':',');		
-		}
-		s.ret_addr=swaddr_read(addr+4,4,R_SS);
-		s.prev_ebp=swaddr_read(addr,4,R_SS);
-		addr = s.prev_ebp;
-		printf("\n");
-	}
-	return 0;
-}
-
-static int cmd_page(char *args) {
-	if(args == NULL) return 0;
-	lnaddr_t lnaddr;
-	sscanf(args,"%x",&lnaddr);
-	hwaddr_t hwaddr = page_translate(lnaddr,1);
-	if(cpu.cr0.protect_enable && cpu.cr0.paging) {
-		printf("0x%x -> 0x%x",lnaddr,hwaddr);	
-	}
-	else printf("\033[1;33mPage address convertion is invalid.\n\033[0m");
-	return 0;
-}
-
 void ui_mainloop() {
 	while(1) {
 		char *str = rl_gets();
@@ -233,6 +259,7 @@ void ui_mainloop() {
 		 * which may need further parsing
 		 */
 		char *args = cmd + strlen(cmd) + 1;
+//		printf("%s\n",args);
 		if(args >= str_end) {
 			args = NULL;
 		}
@@ -243,7 +270,7 @@ void ui_mainloop() {
 #endif
 
 		int i;
-		for(i = 0; i < NR_CMD; i ++) {
+		for(i = 0; i < NR_CMD; i ++) {	//Brute Force!
 			if(strcmp(cmd, cmd_table[i].name) == 0) {
 				if(cmd_table[i].handler(args) < 0) { return; }
 				break;

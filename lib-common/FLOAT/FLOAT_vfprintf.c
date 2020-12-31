@@ -18,45 +18,51 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	int sign = f>>31;
-	if(sign) f = -f;
-	int tmp = 50000000;
-	int res=0,i,len;
-	for(i=15;i>=0;i--) {
-		if(f&(1<<i)) res+=tmp;
-		tmp>>=1;
+	int sign = f & 0x80000000, len, cd = 0;
+	if(sign) f = (~f) + 1;
+	int hehe = 500000000, i = 15;
+	for(i = 15; i >= 0; i--) {
+		if(f & (1 << i)) cd += hehe;
+		hehe >>= 1;
 	}
-	while(res>999999) res/=10;
+	while(cd > 999999) cd /= 10;
 	if(sign) {
-		len = sprintf(buf, "-%d.%06d", (f>>16),res);
-	}
-	else {
-		len = sprintf(buf, "%d.%06d", (f>>16),res);
+		len = (sprintf) (buf, "-%d.%06d", ((int)(f) >> 16), cd);
+	} else {
+		len = (sprintf) (buf, "%d.%06d", ((int)(f) >> 16), cd);
 	}
 	return __stdio_fwrite(buf, len, stream);
 }
 
 static void modify_vfprintf() {
-	int addr = (int)&_vfprintf_internal;
+	int addr = &_vfprintf_internal;	//begin
+
 	//mprotect((void *)((addr + 0x306 - 0x64) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC);
-	char *tmp = (char *)(addr + 0x306 - 0xb);	
-	*tmp = 0x8;		
-	tmp = (char *)(addr + 0x306 - 0xa);
-	*tmp = 0xff;	
-	tmp = (char *)(addr + 0x306 - 0x9);
-	*tmp = 0x32;	
-	tmp = (char *)(addr + 0x306 - 0x8);
-	*tmp = 0x90;	
-	tmp = (char *)(addr + 0x306 - 30);
-	*tmp = 0x90;
-	tmp = (char *)(addr + 0x306 - 29);
-	*tmp = 0x90;
-	tmp = (char *)(addr + 0x306 - 33);
-	*tmp = 0x90;
-	tmp = (char *)(addr + 0x306 - 34);
-	*tmp = 0x90; 
-	int *p = (int*)(addr+0x307);
-	*p+=(int)format_FLOAT - (int)(&_fpmaxtostr); 
+
+	// guess what?
+	char *sub = (char *)(addr + 0x306 - 0xb);	//guess what?
+	*sub = 0x8;		//guess what?
+	sub = (char *)(addr + 0x306 - 0xa);
+	*sub = 0xff;	//guess what?
+	sub = (char *)(addr + 0x306 - 0x9);
+	*sub = 0x32;	//guess what?
+	sub = (char *)(addr + 0x306 - 0x8);
+	*sub = 0x90;	//guess what?
+
+	sub = (char *)(addr + 0x306 - 30);
+	*sub = 0x90;
+	sub = (char *)(addr + 0x306 - 29);
+	*sub = 0x90;
+	sub = (char *)(addr + 0x306 - 33);
+	*sub = 0x90;
+	sub = (char *)(addr + 0x306 - 34);
+	*sub = 0x90; 
+
+	int *pos = (int *)(addr + 0x307);
+
+	*pos += (int)format_FLOAT - (int)(&_fpmaxtostr);
+	
+	//printf("%x %x %d\n",(int)format_FLOAT,(int)(&_fpmaxtostr),(int)format_FLOAT - (int)(&_fpmaxtostr));
 	/* TODO: Implement this function to hijack the formating of "%f"
 	 * argument during the execution of `_vfprintf_internal'. Below
 	 * is the code section in _vfprintf_internal() relative to the
@@ -99,19 +105,23 @@ static void modify_vfprintf() {
 		return 0;
 	} else if (ppfs->conv_num <= CONV_S) {  /* wide char or string */
 #endif
-	
 
 }
 
 static void modify_ppfs_setargs() {
+	int addr = &_ppfs_setargs;
 
-	int addr = (int)&_ppfs_setargs;
-	char *tmp = (char *)(addr + 0x71);	
-	*tmp = 0xeb;		
-	tmp = (char *)(addr + 0x72);
-	*tmp = 0x30;
-	tmp = (char *)(addr + 0x73);
-	*tmp = 0x90;	
+	//mprotect((void *)((addr + 0x73 - 0x64) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC);
+
+	char *pos = (char *)(addr + 0x71);
+	*pos = 0xeb;
+	pos = (char *)(addr + 0x72);
+	*pos = 0x30;
+	pos = (char *)(addr + 0x73);
+	*pos = 0x90;
+	//guess guess guess what???
+
+	
 	/* TODO: Implement this function to modify the action of preparing
 	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
 	 * Below is the code section in _vfprintf_internal() relative to
@@ -120,14 +130,14 @@ static void modify_ppfs_setargs() {
 
 #if 0
 	enum {                          /* C type: */
-		PA_INT,                       /* int */
+		PA_INT,  0                     /* int */
 		PA_CHAR,                      /* int, cast to char */
 		PA_WCHAR,                     /* wide char */
 		PA_STRING,                    /* const char *, a '\0'-terminated string */
 		PA_WSTRING,                   /* const wchar_t *, wide character string */
 		PA_POINTER,                   /* void * */
 		PA_FLOAT,                     /* float */
-		PA_DOUBLE,                    /* double */
+		PA_DOUBLE, 7                   /* double */
 		__PA_NOARG,                   /* non-glibc -- signals non-arg width or prec */
 		PA_LAST
 	};

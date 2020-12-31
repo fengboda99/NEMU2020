@@ -1,30 +1,33 @@
 #include "memory/tlb.h"
 
-void tlb_init() {
+uint32_t readTLB(uint32_t tg) {
 	int i;
-	for(i=0;i<TLB_SIZE;i++) {
-		tlb[i].valid = false;	
+	for(i = 0; i < TLB_SIZE; i++) {
+		if(tlb[i].valid && tlb[i].tag == tg) return tlb[i].page;
 	}
-}
-uint32_t tlb_read(uint32_t tag) {
-	int i;
-	for(i=0;i<TLB_SIZE;i++) {
-		if(tlb[i].valid&&tlb[i].tag==tag) return tlb[i].page;	
-	}
-	return -1;
+	return -1;//invalid
 }
 
-void tlb_write(uint32_t tag,uint32_t page) {
+void resetTLB() {
 	int i;
-	bool v = false;
-	for(i=0;i<TLB_SIZE;i++) {
-		if(!tlb[i].valid) {
-			v = true;
-			break;		
-		}	
+	for(i = 0; i < TLB_SIZE; i++) {
+		tlb[i].valid = false;
 	}
-	if(!v) i = rand()%TLB_SIZE;
+}
+
+void writeTLB(uint32_t tg, uint32_t page) {
+	int i;
+	for(i = 0; i < TLB_SIZE; i++) {
+		if(!tlb[i].valid) {
+			tlb[i].valid = true;
+			tlb[i].tag = tg;
+			tlb[i].page = page;
+			return;
+		}
+	}
+	i = rand() % TLB_SIZE;
 	tlb[i].valid = true;
-	tlb[i].tag = tag;
+	tlb[i].tag = tg;
 	tlb[i].page = page;
+	return;
 }
